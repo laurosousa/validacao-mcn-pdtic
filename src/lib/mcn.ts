@@ -3,6 +3,7 @@ import requirementsData from './requirements.json';
 
 export type Dimension = 'normativa' | 'estrategica' | 'operacional' | 'governanca';
 export type ExpertProfile = 'gestor_ifes_norte' | 'auditoria_controle' | 'pesquisador_doutor';
+export type InstitutionType = 'ifes_norte' | 'ifes_outra_regiao' | 'orgao_controle' | 'outro_orgao_publico' | 'outra_instituicao';
 export type Normativity = 'obrigatorio' | 'recomendado' | 'complementar';
 
 export interface Requirement {
@@ -18,6 +19,7 @@ export interface SubmissionInput {
   consentAccepted: true;
   profile: ExpertProfile;
   yearsExperience: number;
+  institutionType: InstitutionType;
   hasDirectUFRRLink: false;
   ratings: RequirementRating[];
   dimensions: Record<Dimension, DimensionInput>;

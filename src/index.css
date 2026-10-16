@@ -423,7 +423,10 @@ a { color: inherit; }
 .consent-check input { position: absolute; opacity: 0; }
 .check-box { width: 17px; height: 17px; border: 1px solid #a3a4b4; display: grid; place-items: center; flex: 0 0 auto; background: #f7f7f9; color: var(--forest); }
 .consent-check input:checked + .check-box { background: #d7d8ed; border-color: var(--forest); }
-.anonymous-confirm { display: flex; align-items: center; gap: 9px; color: #2b3180; font-size: 14px; margin-top: 15px; }
+.anonymous-confirm { position: relative; display: flex; align-items: center; gap: 9px; color: #2b3180; font-size: 14px; margin-top: 15px; cursor: pointer; }
+.anonymous-confirm input { position: absolute; opacity: 0; }
+.anonymous-confirm input:checked + .check-box { background: #d7d8ed; border-color: var(--forest); }
+.anonymous-confirm input:focus-visible + .check-box { outline: 3px solid var(--ufrr-green); outline-offset: 2px; }
 .setup-actions { border-top: 1px solid var(--line); padding-top: 19px; margin-top: 20px; display: flex; align-items: center; justify-content: space-between; gap: 15px; }
 .setup-actions > span { display: flex; align-items: center; gap: 7px; color: #6f7087; font-size: 14px; }
 .button { display: inline-flex; align-items: center; justify-content: center; gap: 9px; min-height: 43px; padding: 0 17px; border: 1px solid transparent; text-decoration: none; font-size: 15px; font-weight: 600; transition: transform .18s, background .18s, border-color .18s, color .18s; }
@@ -886,3 +889,10 @@ a { color: inherit; }
   background: linear-gradient(90deg, var(--ufrr-blue) 0 55%, var(--ufrr-green) 55% 75%, var(--ufrr-yellow) 75% 90%, var(--ufrr-red) 90% 100%);
 }
 .serif { font-weight: 700; letter-spacing: -0.02em; }
+
+/* Tipo de instituição e aviso LGPD */
+.institution-label { display: block; margin-top: 22px; font-weight: 600; }
+.institution-select { width: 100%; max-width: 100%; margin-top: 8px; padding: 12px 14px; font: inherit; font-size: 16px; color: var(--ink); background: var(--paper-light); border: 1px solid var(--line); border-radius: 8px; }
+.institution-select:focus-visible { outline: 3px solid var(--ufrr-green); outline-offset: 2px; }
+.lgpd-note { margin: 14px 0 0; font-size: 14px; line-height: 1.6; color: var(--muted-ink); }
+.lgpd-note b { color: var(--ink); }

@@ -19,6 +19,13 @@ var PROFILES = {
   auditoria_controle: 'Especialista em auditoria/controle',
   pesquisador_doutor: 'Pesquisador(a) doutor(a)'
 };
+var INSTITUTIONS = {
+  ifes_norte: 'IFES da Região Norte',
+  ifes_outra_regiao: 'IFES de outra região',
+  orgao_controle: 'Órgão de controle',
+  outro_orgao_publico: 'Outro órgão ou entidade pública',
+  outra_instituicao: 'Outra instituição de ensino ou pesquisa'
+};
 var ITEM_THRESHOLD = 0.78;
 var GLOBAL_THRESHOLD = 0.8;
 var MAX_TEXT = 4000;
@@ -54,7 +61,7 @@ function headers_() {
   var head = ['id', 'enviado_em', 'perfil', 'anos_experiencia'];
   REQUIREMENTS.forEach(function (r) { head.push(r[0] + '_clareza', r[0] + '_relevancia'); });
   DIMENSIONS.forEach(function (d) { head.push(d + '_abrangencia', d + '_aplicabilidade', d + '_sugestoes', d + '_sobreposicoes'); });
-  head.push('comentarios_adicionais');
+  head.push('comentarios_adicionais', 'tipo_instituicao');
   return head;
 }
 
@@ -65,6 +72,12 @@ function responsesSheet_() {
     sheet = book.insertSheet('Respostas');
     sheet.getRange(1, 1, 1, headers_().length).setValues([headers_()]).setFontWeight('bold');
     sheet.setFrozenRows(1);
+  } else {
+    // Planilhas criadas antes de uma coluna nova: completa o cabeçalho sem mexer nas colunas antigas.
+    var head = headers_();
+    if (sheet.getLastColumn() < head.length) {
+      sheet.getRange(1, 1, 1, head.length).setValues([head]).setFontWeight('bold');
+    }
   }
   return sheet;
 }
@@ -107,6 +120,8 @@ function validate_(input) {
     row.push(rating_(v.breadth, d), rating_(v.applicability, d), text_(v.suggestions), text_(v.duplicateConcerns));
   });
   row.push(text_(input.additionalComments));
+  if (input.institutionType !== undefined && !INSTITUTIONS[input.institutionType]) throw new Error('Tipo de instituição inválido.');
+  row.push(input.institutionType ? INSTITUTIONS[input.institutionType] : 'não informado');
   return row;
 }
 
@@ -140,6 +155,10 @@ function recalcularIVC() {
   Object.keys(PROFILES).forEach(function (p) {
     var label = PROFILES[p];
     out.push(['  ' + label, rows.filter(function (r) { return r[col.perfil] === label; }).length, 'meta: 3–4', '', '', '']);
+  });
+  Object.keys(INSTITUTIONS).forEach(function (k) {
+    var label = INSTITUTIONS[k];
+    out.push(['  Instituição: ' + label, rows.filter(function (r) { return r[col.tipo_instituicao] === label; }).length, '', '', '', '']);
   });
   out.push(['', '', '', '', '', '']);
 
@@ -177,7 +196,7 @@ function recalcularIVC() {
   sheet.getRange(1, 1, values.length, 6).setValues(values);
   sheet.getRange(1, 1).setFontWeight('bold').setFontSize(13);
   sheet.getRange(1, 2, values.length, 5).setNumberFormat('0.0%');
-  sheet.getRange(2, 2, 4, 1).setNumberFormat('0');
+  sheet.getRange(2, 2, 4 + Object.keys(INSTITUTIONS).length, 1).setNumberFormat('0');
   sheet.setColumnWidth(1, 330);
   values.forEach(function (r, i) {
     if (/^(IVC GLOBAL|POR DIMENSÃO|POR ITEM)/.test(String(r[0]))) sheet.getRange(i + 1, 1, 1, 6).setFontWeight('bold');

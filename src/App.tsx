@@ -5,7 +5,7 @@ import {
   Menu, ShieldCheck,
 } from 'lucide-react';
 import { requirements as allRequirements, sendSubmission, useConfig } from '@/lib/mcn';
-import type { Dimension, DimensionInput, ExpertProfile, McnConfig, Requirement, RequirementRating, SubmissionInput } from '@/lib/mcn';
+import type { Dimension, DimensionInput, ExpertProfile, InstitutionType, McnConfig, Requirement, RequirementRating, SubmissionInput } from '@/lib/mcn';
 import { ErrorBoundary } from '@/components/error-boundary';
 import NotFound from '@/pages/not-found';
 import { Route, Switch, useLocation, Router as WouterRouter, Link } from 'wouter';
@@ -25,6 +25,13 @@ const profileNames: Record<ExpertProfile, string> = {
   auditoria_controle: 'Especialista em auditoria/controle com atuação em governança de TIC',
   pesquisador_doutor: 'Pesquisador(a) doutor(a) em área relacionada à gestão ou governança de TIC',
 };
+const institutionNames: Record<InstitutionType, string> = {
+  ifes_norte: 'IFES da Região Norte',
+  ifes_outra_regiao: 'IFES de outra região',
+  orgao_controle: 'Órgão de controle (TCU, CGU etc.)',
+  outro_orgao_publico: 'Outro órgão ou entidade pública',
+  outra_instituicao: 'Outra instituição de ensino ou pesquisa',
+};
 const normativityLabel: Record<Requirement['normativity'], string> = {
   obrigatorio: 'Obrigatório', recomendado: 'Recomendado', complementar: 'Complementar',
 };
@@ -37,6 +44,7 @@ type Draft = {
   consentAccepted?: boolean;
   profile?: ExpertProfile;
   yearsExperience?: number;
+  institutionType?: InstitutionType;
   confirmsNoDirectLink?: boolean;
   activeDimension?: Dimension;
   ratings: Record<string, RequirementRating>;
@@ -122,7 +130,7 @@ function HomePage() {
   const validRequirements = requirements.length === 80;
   const allDimensionRatings = dimensions.every((dim) => draft.dimensions[dim].breadth >= 1 && draft.dimensions[dim].applicability >= 1);
   const allRated = validRequirements && answeredCount === requirements.length;
-  const profileReady = Boolean(draft.profile && (draft.yearsExperience ?? 0) >= 2 && draft.confirmsNoDirectLink);
+  const profileReady = Boolean(draft.profile && draft.institutionType && (draft.yearsExperience ?? 0) >= 2 && draft.confirmsNoDirectLink);
 
   useEffect(() => {
     try { localStorage.setItem(storageKey, JSON.stringify(draft)); } catch { /* Storage may be unavailable. */ }
@@ -158,12 +166,13 @@ function HomePage() {
     requestAnimationFrame(() => document.getElementById('participar')?.scrollIntoView({ behavior: 'smooth', block: 'start' }));
   }, [activeDimension]);
   function submit() {
-    if (!ready || !consent || !allRated || !allDimensionRatings || !profileReady || !draft.profile || !config?.submitUrl) return;
+    if (!ready || !consent || !allRated || !allDimensionRatings || !profileReady || !draft.profile || !draft.institutionType || !config?.submitUrl) return;
     if (submitState === 'pending') return;
     const payload: SubmissionInput = {
       consentAccepted: true,
       profile: draft.profile,
       yearsExperience: Number(draft.yearsExperience),
+      institutionType: draft.institutionType,
       hasDirectUFRRLink: false,
       ratings: requirements.map((item) => draft.ratings[item.code]!),
       dimensions: draft.dimensions,
@@ -240,7 +249,7 @@ function HomePage() {
 
       <section className="privacy-strip">
         <div className="privacy-mark"><LockKeyhole size={19} /></div>
-        <div><b>Proteção de dados.</b><p>Não solicitamos nome, e-mail ou instituição. Evite incluir dados identificáveis nos comentários; os resultados serão apresentados de forma agregada.</p></div>
+        <div><b>Proteção de dados.</b><p>Não pedimos nome, e-mail nem o nome da sua instituição, apenas o tipo de instituição. Evite incluir dados identificáveis nos comentários. Os dados seguem a LGPD (Lei nº 13.709/2018) e os resultados serão apresentados de forma agregada.</p></div>
         <div className="privacy-tag">SEM IDENTIFICADORES DIRETOS</div>
       </section>
 
@@ -266,7 +275,7 @@ function ProfileSetup({ draft, onChange, consent, setConsent, config, onStart }:
   draft: Draft; onChange: (patch: Partial<Draft>) => void; consent: boolean;
   setConsent: (value: boolean) => void; config: McnConfig | undefined; onStart: () => void;
 }) {
-  const valid = Boolean(consent && draft.profile && (draft.yearsExperience ?? 0) >= 2 && draft.confirmsNoDirectLink);
+  const valid = Boolean(consent && draft.profile && draft.institutionType && (draft.yearsExperience ?? 0) >= 2 && draft.confirmsNoDirectLink);
   return <div className="setup-card fade-up">
     <div className="setup-head"><div><span className="section-number">PRIMEIRO, SEU PERFIL</span><h3>Uma breve confirmação</h3></div><span className="step-count">ETAPA 1 <i /> 2</span></div>
     <div className="setup-grid">
@@ -282,12 +291,19 @@ function ProfileSetup({ draft, onChange, consent, setConsent, config, onStart }:
         <label htmlFor="years-experience">Anos de experiência profissional</label>
         <p>É necessário ter pelo menos 2 anos de experiência.</p>
         <div className="number-input-wrap"><input id="years-experience" type="number" inputMode="numeric" min={2} step={1} value={draft.yearsExperience ?? ''} onChange={(event) => onChange({ yearsExperience: Number(event.target.value) })} placeholder="Ex.: 8" data-testid="input-years-experience" /><span>anos</span></div>
+        <label htmlFor="institution-type" className="institution-label">Tipo de instituição em que atua</label>
+        <p>Informe só o tipo; não pedimos o nome da instituição.</p>
+        <select id="institution-type" className="institution-select" value={draft.institutionType ?? ''} onChange={(event) => onChange({ institutionType: (event.target.value || undefined) as InstitutionType | undefined })} data-testid="input-institution-type">
+          <option value="">Selecione…</option>
+          {(Object.keys(institutionNames) as InstitutionType[]).map((type) => <option key={type} value={type}>{institutionNames[type]}</option>)}
+        </select>
       </div>
     </div>
     <div className="consent-panel">
       <div className="consent-title"><FileText size={18} /><div><b>Consentimento livre e esclarecido</b><p>Leia o TCLE antes de decidir participar.</p></div></div>
       {config?.tcleUrl && <a href={config.tcleUrl} target="_blank" rel="noreferrer" className="tcle-link">Abrir TCLE <ArrowUpRight size={14} /></a>}
       <label className="consent-check"><input type="checkbox" checked={consent} onChange={(e) => setConsent(e.target.checked)} data-testid="input-consent" /><span className="check-box">{consent && <Check size={13} />}</span><span>Li o termo, compreendi as informações e aceito participar voluntariamente.</span></label>
+      <p className="lgpd-note"><b>Tratamento de dados (LGPD).</b> As respostas são usadas apenas nesta pesquisa acadêmica (Lei nº 13.709/2018, arts. 4º, II, “b”, e 7º, IV). Ficam guardadas em planilha institucional da UFRR, com acesso restrito ao pesquisador e ao orientador, por no mínimo cinco anos, e são divulgadas somente de forma agregada. Dúvidas ou pedido de exclusão: {config?.contactEmail ?? 'lauro.sousa@ufrr.br'}.</p>
     </div>
     <label className="anonymous-confirm"><input type="checkbox" checked={Boolean(draft.confirmsNoDirectLink)} onChange={(event) => onChange({ confirmsNoDirectLink: event.target.checked })} data-testid="input-no-direct-ufrr-link" /><span className="check-box">{draft.confirmsNoDirectLink && <Check size={13} />}</span><ShieldCheck size={18} /><span>Confirmo que não tenho vínculo direto com a UFRR e evitarei incluir dados que me identifiquem nos comentários.</span></label>
     <div className="setup-actions"><span><LockKeyhole size={14} /> Progresso salvo apenas neste dispositivo</span><button className="button button-primary" disabled={!valid} onClick={onStart} data-testid="button-begin-survey">Começar avaliação <ArrowRight size={16} /></button></div>
@@ -383,9 +399,9 @@ function SubmissionSuccess({ receipt, onHome }: { receipt: string; onHome: () =>
   return <main className="success-page"><Topbar /><section className="success-card fade-up">
     <div className="success-icon"><Check size={27} /></div><span className="section-number">CONTRIBUIÇÃO REGISTRADA</span>
     <h1 className="serif">Obrigado por dedicar<br />seu conhecimento.</h1>
-    <p>Sua contribuição foi recebida. O formulário não solicita nome, e-mail ou instituição; mantenha seus comentários sem dados identificáveis.</p>
+    <p>Sua contribuição foi recebida. O formulário não pede nome, e-mail nem o nome da sua instituição.</p>
     <div className="receipt"><span>PROTOCOLO</span><b>{receipt}</b></div>
-    <Notice tone="success">Esta resposta não contém seu nome, e-mail nem instituição.</Notice>
+    <Notice tone="success">Esta resposta não contém seu nome, seu e-mail nem o nome da sua instituição.</Notice>
     <button type="button" className="button button-primary" onClick={onHome} data-testid="button-success-home">Voltar à página inicial <ArrowRight size={16} /></button>
   </section><Footer /></main>;
 }
