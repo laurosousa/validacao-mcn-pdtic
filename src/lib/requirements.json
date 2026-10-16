@@ -1,0 +1,562 @@
+[
+  {
+    "code": "N01",
+    "dimension": "normativa",
+    "text": "As contratações de TIC decorrentes do PDTIC observam, quando regidas pela Lei nº 14.133/2021, a IN SGD/ME nº 94/2022.",
+    "legalBasis": "IN SGD/ME nº 94/2022 — contratação; Portaria SGD/ME nº 778/2019, art. 6º",
+    "normativity": "complementar"
+  },
+  {
+    "code": "N02",
+    "dimension": "normativa",
+    "text": "O PDTIC observa a Portaria SGD/ME nº 778/2019, com a alteração da Portaria SGD/ME nº 18.152/2020, no que diz respeito à governança e ao conteúdo mínimo do plano.",
+    "legalBasis": "Portaria SGD/ME nº 778/2019, art. 6º, texto alterado pela Portaria SGD/ME nº 18.152/2020",
+    "normativity": "obrigatorio"
+  },
+  {
+    "code": "N03",
+    "dimension": "normativa",
+    "text": "O PDTIC registra deliberação do CGD ou da instância equivalente competente, com evidência documental.",
+    "legalBasis": "Portaria SGD/ME nº 778/2019, arts. 4º–5º; Decreto nº 10.332/2020, art. 2º",
+    "normativity": "recomendado"
+  },
+  {
+    "code": "N04",
+    "dimension": "normativa",
+    "text": "O PDTIC é publicado no portal institucional, com eventual conteúdo não público segregado ou classificado conforme a lei.",
+    "legalBasis": "Portaria SGD/ME nº 778/2019, art. 4º, V; Lei nº 12.527/2011, art. 8º",
+    "normativity": "obrigatorio"
+  },
+  {
+    "code": "N05",
+    "dimension": "normativa",
+    "text": "O PDTIC identifica a inserção da instituição no SISP e observa os atos aplicáveis do órgão central.",
+    "legalBasis": "Decreto nº 7.579/2011; Portaria SGD/ME nº 778/2019",
+    "normativity": "complementar"
+  },
+  {
+    "code": "N06",
+    "dimension": "normativa",
+    "text": "O PDTIC explicita correspondência com o PCA quando houver iniciativa de TIC que demande contratação.",
+    "legalBasis": "Lei nº 14.133/2021, arts. 12, VII, e 18; Decreto nº 10.947/2022; IN SGD/ME nº 94/2022, arts. 6º–7º",
+    "normativity": "recomendado"
+  },
+  {
+    "code": "N07",
+    "dimension": "normativa",
+    "text": "As contratações previstas no PDTIC indicam o regime jurídico aplicável e observam a Lei nº 14.133/2021 quando forem por ela regidas.",
+    "legalBasis": "Lei nº 14.133/2021",
+    "normativity": "obrigatorio"
+  },
+  {
+    "code": "N08",
+    "dimension": "normativa",
+    "text": "O PDTIC está alinhado à EGD 2020–2023 aplicável em 06/11/2023, indicando objetivos ou iniciativas pertinentes.",
+    "legalBasis": "Portaria SGD/ME nº 778/2019, art. 6º, II; Decreto nº 10.332/2020, alterado pelo Decreto nº 11.260/2022",
+    "normativity": "obrigatorio"
+  },
+  {
+    "code": "N09",
+    "dimension": "normativa",
+    "text": "O PDTIC contempla, quando aplicáveis às competências institucionais, ações de governo digital e digitalização de serviços.",
+    "legalBasis": "Lei nº 14.129/2021, arts. 1º–3º",
+    "normativity": "recomendado"
+  },
+  {
+    "code": "N10",
+    "dimension": "normativa",
+    "text": "O PDTIC identifica medidas de privacidade e proteção de dados pessoais aplicáveis às suas ações.",
+    "legalBasis": "Lei nº 13.709/2018, arts. 23–30, 37 e 46–50",
+    "normativity": "recomendado"
+  },
+  {
+    "code": "N11",
+    "dimension": "normativa",
+    "text": "O PDTIC publicado utiliza formato eletrônico aberto e não proprietário quando aplicável; facilidade de compreensão é critério separado de qualidade.",
+    "legalBasis": "Lei nº 12.527/2011, art. 8º, § 3º, II–III; Portaria SGD/ME nº 778/2019, art. 4º, V",
+    "normativity": "obrigatorio"
+  },
+  {
+    "code": "N12",
+    "dimension": "normativa",
+    "text": "O PDTIC explicita alinhamento ao PDI vigente, quando pertinente à estratégia institucional.",
+    "legalBasis": "Lei nº 10.861/2004; Decreto nº 9.235/2017",
+    "normativity": "recomendado"
+  },
+  {
+    "code": "N13",
+    "dimension": "normativa",
+    "text": "O PDTIC tem vigência mínima de dois anos e prevê revisão anual.",
+    "legalBasis": "Portaria SGD/ME nº 778/2019, art. 6º, VI, texto alterado pela Portaria SGD/ME nº 18.152/2020",
+    "normativity": "obrigatorio"
+  },
+  {
+    "code": "N14",
+    "dimension": "normativa",
+    "text": "O processo de elaboração observa, no que couber, o Guia de PDTIC do SISP v2.1 (30/09/2021).",
+    "legalBasis": "Portaria SGD/ME nº 778/2019, art. 6º, I; Guia de PDTIC do SISP v2.1 (30/09/2021)",
+    "normativity": "recomendado"
+  },
+  {
+    "code": "N15",
+    "dimension": "normativa",
+    "text": "O PDTIC informa seu período de cobertura e atende à vigência mínima de dois anos.",
+    "legalBasis": "Portaria SGD/ME nº 778/2019, art. 6º, VI",
+    "normativity": "obrigatorio"
+  },
+  {
+    "code": "N16",
+    "dimension": "normativa",
+    "text": "O PDTIC identifica a unidade competente e o gestor responsável pelo planejamento, desenvolvimento, execução e monitoramento de TIC.",
+    "legalBasis": "Portaria SGD/ME nº 778/2019, art. 4º, IV",
+    "normativity": "obrigatorio"
+  },
+  {
+    "code": "N17",
+    "dimension": "normativa",
+    "text": "O PDTIC registra aprovação pela autoridade ou instância competente, com data e evidência documental, quando exigido pelo ato interno.",
+    "legalBasis": "Portaria SGD/ME nº 778/2019, arts. 5º–6º; ato interno da instituição",
+    "normativity": "recomendado"
+  },
+  {
+    "code": "N18",
+    "dimension": "normativa",
+    "text": "O PDTIC registra eventual cadastro ou envio ao sistema do órgão central somente quando houver solicitação administrativa formal identificável.",
+    "legalBasis": "Orientação específica do órgão central, se existente",
+    "normativity": "complementar"
+  },
+  {
+    "code": "N19",
+    "dimension": "normativa",
+    "text": "O PDTIC identifica versão, data, aprovador e histórico de revisões para permitir rastreabilidade documental.",
+    "legalBasis": "Guia de PDTIC do SISP v2.1 (30/09/2021)",
+    "normativity": "recomendado"
+  },
+  {
+    "code": "N20",
+    "dimension": "normativa",
+    "text": "O PDTIC referencia o ato interno que o aprovou, quando esse ato existir no corpus institucional.",
+    "legalBasis": "Ato interno da instituição (regimento, resolução ou portaria)",
+    "normativity": "complementar"
+  },
+  {
+    "code": "E01",
+    "dimension": "estrategica",
+    "text": "O PDTIC documenta diagnóstico de TIC e inventário de necessidades priorizado, sem impor a técnica SWOT.",
+    "legalBasis": "Portaria SGD/ME nº 778/2019, art. 6º, III, a; Guia de PDTIC do SISP v2.1 (30/09/2021)",
+    "normativity": "recomendado"
+  },
+  {
+    "code": "E02",
+    "dimension": "estrategica",
+    "text": "O PDTIC demonstra alinhamento ao PEI vigente ou, na ausência deste, ao PPA; registra sua relação com o PDI quando pertinente.",
+    "legalBasis": "Portaria SGD/ME nº 778/2019, art. 6º, II; Lei nº 10.861/2004; Decreto nº 9.235/2017",
+    "normativity": "recomendado"
+  },
+  {
+    "code": "E03",
+    "dimension": "estrategica",
+    "text": "O PDTIC vincula objetivos ou iniciativas de TIC aos objetivos pertinentes da EGD 2020–2023 vigente no corte.",
+    "legalBasis": "Portaria SGD/ME nº 778/2019, art. 6º, II; Decreto nº 10.332/2020, alterado pelo Decreto nº 11.260/2022",
+    "normativity": "obrigatorio"
+  },
+  {
+    "code": "E04",
+    "dimension": "estrategica",
+    "text": "Para cada objetivo estratégico ou necessidade de TIC, o PDTIC apresenta meta(s) com indicador, valor e prazo.",
+    "legalBasis": "Portaria SGD/ME nº 778/2019, art. 6º, IV",
+    "normativity": "obrigatorio"
+  },
+  {
+    "code": "E05",
+    "dimension": "estrategica",
+    "text": "O PDTIC evidencia, por matriz ou instrumento equivalente, o alinhamento entre TIC e estratégias organizacionais.",
+    "legalBasis": "Portaria SGD/ME nº 778/2019, art. 6º, II; Guia de PDTIC do SISP v2.1 (30/09/2021)",
+    "normativity": "recomendado"
+  },
+  {
+    "code": "E06",
+    "dimension": "estrategica",
+    "text": "O PDTIC contém inventário de necessidades de TIC priorizado, contemplando as áreas pertinentes da instituição.",
+    "legalBasis": "Portaria SGD/ME nº 778/2019, art. 6º, III, a; Guia de PDTIC do SISP v2.1 (30/09/2021)",
+    "normativity": "obrigatorio"
+  },
+  {
+    "code": "E07",
+    "dimension": "estrategica",
+    "text": "O PDTIC explicita o método ou os critérios usados para priorizar necessidades, com justificativa e ordem resultante.",
+    "legalBasis": "Portaria SGD/ME nº 778/2019, art. 6º, III, a; Guia de PDTIC do SISP v2.1 (30/09/2021)",
+    "normativity": "recomendado"
+  },
+  {
+    "code": "E08",
+    "dimension": "estrategica",
+    "text": "Cada meta do PDTIC possui indicador, valor de referência ou alvo e prazo para acompanhamento.",
+    "legalBasis": "Portaria SGD/ME nº 778/2019, art. 6º, IV",
+    "normativity": "obrigatorio"
+  },
+  {
+    "code": "E09",
+    "dimension": "estrategica",
+    "text": "O diagnóstico pode registrar fatores externos relevantes que fundamentem prioridades de TIC.",
+    "legalBasis": "Guia de PDTIC do SISP v2.1 (30/09/2021)",
+    "normativity": "recomendado"
+  },
+  {
+    "code": "E10",
+    "dimension": "estrategica",
+    "text": "O diagnóstico pode registrar estrutura, pessoas, infraestrutura e capacidades internas relevantes às necessidades de TIC.",
+    "legalBasis": "Portaria SGD/ME nº 778/2019, art. 6º, III, a e c; Guia de PDTIC do SISP v2.1 (30/09/2021)",
+    "normativity": "recomendado"
+  },
+  {
+    "code": "E11",
+    "dimension": "estrategica",
+    "text": "O PDTIC contém plano de metas e ações para sua vigência, com unidade demandante e unidade responsável pela execução.",
+    "legalBasis": "Portaria SGD/ME nº 778/2019, art. 6º, III, b; Guia de PDTIC do SISP v2.1 (30/09/2021)",
+    "normativity": "obrigatorio"
+  },
+  {
+    "code": "E12",
+    "dimension": "estrategica",
+    "text": "O PDTIC relaciona objetivos ou necessidades de TIC às metas correspondentes; vínculo individual de cada projeto é recomendado quando houver projetos.",
+    "legalBasis": "Portaria SGD/ME nº 778/2019, art. 6º, IV; Guia de PDTIC do SISP v2.1 (30/09/2021)",
+    "normativity": "recomendado"
+  },
+  {
+    "code": "E13",
+    "dimension": "estrategica",
+    "text": "O PDTIC considera, quando pertinente, transformação e digitalização de serviços segundo a Lei nº 14.129/2021 e a EGD 2020–2023.",
+    "legalBasis": "Lei nº 14.129/2021; Portaria SGD/ME nº 778/2019, art. 6º, II; Decreto nº 10.332/2020, alterado pelo Decreto nº 11.260/2022",
+    "normativity": "recomendado"
+  },
+  {
+    "code": "E14",
+    "dimension": "estrategica",
+    "text": "O PDTIC pode apresentar análise de lacunas entre capacidades atuais e desejadas.",
+    "legalBasis": "Guia de PDTIC do SISP v2.1 (30/09/2021)",
+    "normativity": "complementar"
+  },
+  {
+    "code": "E15",
+    "dimension": "estrategica",
+    "text": "O PDTIC pode registrar visão de TIC coerente com as estratégias institucionais.",
+    "legalBasis": "Portaria SGD/ME nº 778/2019, art. 6º, II; Guia de PDTIC do SISP v2.1 (30/09/2021)",
+    "normativity": "complementar"
+  },
+  {
+    "code": "E16",
+    "dimension": "estrategica",
+    "text": "O PDTIC identifica a unidade responsável e descreve, quando pertinente, seu papel na governança e gestão de TIC.",
+    "legalBasis": "Portaria SGD/ME nº 778/2019, arts. 2º–4º e 6º; Decreto nº 7.579/2011",
+    "normativity": "complementar"
+  },
+  {
+    "code": "E17",
+    "dimension": "estrategica",
+    "text": "O PDTIC pode considerar políticas de IA vigentes na data de sua elaboração; o PBIA 2024–2028 é apenas referência prospectiva.",
+    "legalBasis": "Plano Brasileiro de Inteligência Artificial 2024–2028 (política posterior)",
+    "normativity": "complementar"
+  },
+  {
+    "code": "E18",
+    "dimension": "estrategica",
+    "text": "O PDTIC considera acessibilidade e acesso inclusivo nas iniciativas e serviços digitais pertinentes.",
+    "legalBasis": "Lei nº 14.129/2021, arts. 2º, II, e 3º, I",
+    "normativity": "recomendado"
+  },
+  {
+    "code": "E19",
+    "dimension": "estrategica",
+    "text": "O PDTIC identifica, para rastreabilidade, a EGD 2020–2023 e o Decreto nº 10.332/2020, com a alteração do Decreto nº 11.260/2022, quando invocados.",
+    "legalBasis": "Portaria SGD/ME nº 778/2019, art. 6º, II; Decretos nº 10.332/2020 e nº 11.260/2022",
+    "normativity": "recomendado"
+  },
+  {
+    "code": "E20",
+    "dimension": "estrategica",
+    "text": "O PDTIC pode registrar participação, demandas e impactos das partes interessadas na priorização.",
+    "legalBasis": "Portaria SGD/ME nº 778/2019, art. 3º, I, e art. 6º; Guia de PDTIC do SISP v2.1 (30/09/2021)",
+    "normativity": "complementar"
+  },
+  {
+    "code": "O01",
+    "dimension": "operacional",
+    "text": "O PDTIC contém plano de metas e ações, com necessidades priorizadas, unidade demandante e unidade responsável pela execução.",
+    "legalBasis": "Portaria SGD/ME nº 778/2019, art. 6º, III, a–b; Guia de PDTIC do SISP v2.1 (30/09/2021)",
+    "normativity": "obrigatorio"
+  },
+  {
+    "code": "O02",
+    "dimension": "operacional",
+    "text": "Cada meta possui indicador, valor ou alvo e prazo.",
+    "legalBasis": "Portaria SGD/ME nº 778/2019, art. 6º, IV",
+    "normativity": "obrigatorio"
+  },
+  {
+    "code": "O03",
+    "dimension": "operacional",
+    "text": "Cada ação ou meta identifica a unidade demandante e a unidade responsável pela execução; nome e função individuais são detalhamento recomendável.",
+    "legalBasis": "Portaria SGD/ME nº 778/2019, art. 6º, III, b; Guia de PDTIC do SISP v2.1 (30/09/2021)",
+    "normativity": "obrigatorio"
+  },
+  {
+    "code": "O04",
+    "dimension": "operacional",
+    "text": "As metas têm prazo; ações e projetos possuem cronograma quando aplicável.",
+    "legalBasis": "Portaria SGD/ME nº 778/2019, art. 6º, IV; Guia de PDTIC do SISP v2.1 (30/09/2021)",
+    "normativity": "obrigatorio"
+  },
+  {
+    "code": "O05",
+    "dimension": "operacional",
+    "text": "O PDTIC contém plano orçamentário das ações, com estimativas e premissas compatíveis com o planejamento.",
+    "legalBasis": "Portaria SGD/ME nº 778/2019, art. 6º, III, d; Guia de PDTIC do SISP v2.1 (30/09/2021)",
+    "normativity": "obrigatorio"
+  },
+  {
+    "code": "O06",
+    "dimension": "operacional",
+    "text": "O diagnóstico registra recursos e capacidades de TIC existentes relevantes às necessidades identificadas.",
+    "legalBasis": "Guia de PDTIC do SISP v2.1 (30/09/2021); Portaria SGD/ME nº 778/2019, art. 6º, III, a",
+    "normativity": "recomendado"
+  },
+  {
+    "code": "O07",
+    "dimension": "operacional",
+    "text": "O PDTIC contém plano de gestão de pessoas de TIC, com ações necessárias às metas; dimensionamento e competências entram quando aplicáveis.",
+    "legalBasis": "Portaria SGD/ME nº 778/2019, art. 6º, III, c; Guia de PDTIC do SISP v2.1 (30/09/2021)",
+    "normativity": "obrigatorio"
+  },
+  {
+    "code": "O08",
+    "dimension": "operacional",
+    "text": "O PDTIC prevê ações de capacitação e desenvolvimento da equipe de TIC quando necessárias ao plano.",
+    "legalBasis": "Decreto nº 7.579/2011, art. 2º, VII; Guia de PDTIC do SISP v2.1 (30/09/2021)",
+    "normativity": "recomendado"
+  },
+  {
+    "code": "O09",
+    "dimension": "operacional",
+    "text": "O PDTIC identifica dependências ou necessidades de contratação de TIC e riscos de contratos críticos, quando pertinentes.",
+    "legalBasis": "IN SGD/ME nº 94/2022, arts. 8º–38; Lei nº 14.133/2021",
+    "normativity": "complementar"
+  },
+  {
+    "code": "O10",
+    "dimension": "operacional",
+    "text": "O PDTIC registra correspondência documental entre ações e contratações do PCA quando houver demanda contratável.",
+    "legalBasis": "IN SGD/ME nº 94/2022, arts. 6º–7º; Decreto nº 10.947/2022",
+    "normativity": "recomendado"
+  },
+  {
+    "code": "O11",
+    "dimension": "operacional",
+    "text": "O PDTIC identifica serviços críticos e ações ou referência de continuidade quando aplicável.",
+    "legalBasis": "Portaria SGD/ME nº 778/2019, art. 6º, III, e; Guia de PDTIC do SISP v2.1 (30/09/2021)",
+    "normativity": "recomendado"
+  },
+  {
+    "code": "O12",
+    "dimension": "operacional",
+    "text": "O PDTIC define ou referencia abordagem de gerenciamento para projetos derivados, quando houver projetos.",
+    "legalBasis": "Guia de PDTIC do SISP v2.1 (30/09/2021)",
+    "normativity": "recomendado"
+  },
+  {
+    "code": "O13",
+    "dimension": "operacional",
+    "text": "Cada meta tem indicador, valor e prazo, e o processo acompanha implementação, recursos e entrega de serviços.",
+    "legalBasis": "Portaria SGD/ME nº 778/2019, arts. 6º, IV–V",
+    "normativity": "obrigatorio"
+  },
+  {
+    "code": "O14",
+    "dimension": "operacional",
+    "text": "Há processo formal para monitorar e avaliar implementação, recursos, serviços, alcance de metas e correção de desvios.",
+    "legalBasis": "Portaria SGD/ME nº 778/2019, art. 6º, V",
+    "normativity": "obrigatorio"
+  },
+  {
+    "code": "O15",
+    "dimension": "operacional",
+    "text": "O PDTIC contém plano orçamentário das ações, com estimativas e premissas; categorias e períodos são detalhados quando pertinentes.",
+    "legalBasis": "Portaria SGD/ME nº 778/2019, art. 6º, III, d; Guia de PDTIC do SISP v2.1 (30/09/2021)",
+    "normativity": "obrigatorio"
+  },
+  {
+    "code": "O16",
+    "dimension": "operacional",
+    "text": "O PDTIC pode identificar fontes de financiamento e premissas para as ações de TIC.",
+    "legalBasis": "Portaria SGD/ME nº 778/2019, art. 6º, III, d; Guia de PDTIC do SISP v2.1 (30/09/2021)",
+    "normativity": "recomendado"
+  },
+  {
+    "code": "O17",
+    "dimension": "operacional",
+    "text": "O PDTIC explicita os critérios usados para priorizar e ordenar demandas, para transparência e rastreabilidade.",
+    "legalBasis": "Portaria SGD/ME nº 778/2019, art. 6º, III, a; Guia de PDTIC do SISP v2.1 (30/09/2021)",
+    "normativity": "recomendado"
+  },
+  {
+    "code": "O18",
+    "dimension": "operacional",
+    "text": "O PDTIC considera integração e interoperabilidade com sistemas corporativos pertinentes, observando a EGD 2020–2023 quando incidente.",
+    "legalBasis": "Decreto nº 10.332/2020, alterado pelo Decreto nº 11.260/2022; Guia de PDTIC do SISP v2.1 (30/09/2021)",
+    "normativity": "recomendado"
+  },
+  {
+    "code": "O19",
+    "dimension": "operacional",
+    "text": "O PDTIC planeja o ciclo de vida dos ativos quando isso for identificado como necessidade ou risco.",
+    "legalBasis": "Guia de PDTIC do SISP v2.1 (30/09/2021)",
+    "normativity": "recomendado"
+  },
+  {
+    "code": "O20",
+    "dimension": "operacional",
+    "text": "O PDTIC descreve comunicação, publicação e participação necessárias à elaboração ou ao acompanhamento, quando pertinentes.",
+    "legalBasis": "Portaria SGD/ME nº 778/2019, art. 4º, V; Guia de PDTIC do SISP v2.1 (30/09/2021)",
+    "normativity": "complementar"
+  },
+  {
+    "code": "G01",
+    "dimension": "governanca",
+    "text": "O PDTIC referencia o ato de instituição ou designação do CGD ou da estrutura equivalente.",
+    "legalBasis": "Portaria SGD/ME nº 778/2019, arts. 4º–5º; Decreto nº 10.332/2020, art. 2º",
+    "normativity": "recomendado"
+  },
+  {
+    "code": "G02",
+    "dimension": "governanca",
+    "text": "O PDTIC referencia ato que identifique composição e competências do CGD ou da estrutura equivalente, quando existente.",
+    "legalBasis": "Portaria SGD/ME nº 778/2019, art. 5º; Decreto nº 10.332/2020, art. 2º",
+    "normativity": "recomendado"
+  },
+  {
+    "code": "G03",
+    "dimension": "governanca",
+    "text": "O PDTIC define periodicidade de acompanhamento pelo CGD ou instância equivalente, se adotada pela instituição.",
+    "legalBasis": "Portaria SGD/ME nº 778/2019, art. 4º, III; Guia de PDTIC do SISP v2.1 (30/09/2021)",
+    "normativity": "recomendado"
+  },
+  {
+    "code": "G04",
+    "dimension": "governanca",
+    "text": "O PDTIC contém ou referencia ato ou ata que demonstre deliberação pela instância competente, conforme o ato interno.",
+    "legalBasis": "Portaria SGD/ME nº 778/2019, arts. 5º–6º; ato institucional",
+    "normativity": "recomendado"
+  },
+  {
+    "code": "G05",
+    "dimension": "governanca",
+    "text": "O PDTIC contém plano de gestão de riscos de TIC.",
+    "legalBasis": "Portaria SGD/ME nº 778/2019, art. 6º, III, e; IN Conjunta MP/CGU nº 1/2016",
+    "normativity": "obrigatorio"
+  },
+  {
+    "code": "G06",
+    "dimension": "governanca",
+    "text": "O PDTIC identifica, avalia, trata e monitora riscos relevantes segundo metodologia institucional.",
+    "legalBasis": "Portaria SGD/ME nº 778/2019, art. 6º, III, e; IN Conjunta MP/CGU nº 1/2016; Decreto nº 9.637/2018",
+    "normativity": "recomendado"
+  },
+  {
+    "code": "G07",
+    "dimension": "governanca",
+    "text": "O PDTIC prevê avaliação ou assurance conforme riscos e competência da auditoria interna.",
+    "legalBasis": "IN SFC/CGU nº 8/2017; Decreto nº 3.591/2000; Portaria SGD/ME nº 778/2019",
+    "normativity": "recomendado"
+  },
+  {
+    "code": "G08",
+    "dimension": "governanca",
+    "text": "O PDTIC define informações ou relatórios para monitorar e prestar contas da execução, conforme governança institucional.",
+    "legalBasis": "Portaria SGD/ME nº 778/2019, arts. 3º, V, e 6º, V; Acórdãos TCU nº 2.308/2010 e nº 1.233/2012",
+    "normativity": "recomendado"
+  },
+  {
+    "code": "G09",
+    "dimension": "governanca",
+    "text": "O PDTIC é disponibilizado em transparência ativa e formato aberto no portal institucional, ressalvadas restrições legais.",
+    "legalBasis": "Portaria SGD/ME nº 778/2019, art. 4º, V; Lei nº 12.527/2011, art. 8º",
+    "normativity": "obrigatorio"
+  },
+  {
+    "code": "G10",
+    "dimension": "governanca",
+    "text": "O PDTIC tem vigência mínima de dois anos e processo de revisão anual, com alterações formalmente registradas.",
+    "legalBasis": "Portaria SGD/ME nº 778/2019, art. 6º, VI; Guia de PDTIC do SISP v2.1 (30/09/2021)",
+    "normativity": "obrigatorio"
+  },
+  {
+    "code": "G11",
+    "dimension": "governanca",
+    "text": "O PDTIC define papéis e responsabilidades por matriz ou instrumento equivalente, sem exigir RACI.",
+    "legalBasis": "Portaria SGD/ME nº 778/2019, art. 4º, III–IV; Guia de PDTIC do SISP v2.1 (30/09/2021)",
+    "normativity": "recomendado"
+  },
+  {
+    "code": "G12",
+    "dimension": "governanca",
+    "text": "O PDTIC referencia a Política de Segurança da Informação e ações de segurança aplicáveis, quando existentes.",
+    "legalBasis": "Decreto nº 9.637/2018, arts. 15–18, alterado pelo Decreto nº 10.641/2021",
+    "normativity": "recomendado"
+  },
+  {
+    "code": "G13",
+    "dimension": "governanca",
+    "text": "O PDTIC prevê ações de proteção de dados, registros ou avaliação de operações e controles proporcionais.",
+    "legalBasis": "Lei nº 13.709/2018, arts. 23, 37, 46–50",
+    "normativity": "recomendado"
+  },
+  {
+    "code": "G14",
+    "dimension": "governanca",
+    "text": "O PDTIC descreve participação ou consulta das áreas interessadas na elaboração, revisão ou monitoramento.",
+    "legalBasis": "Portaria SGD/ME nº 778/2019, art. 3º, I; Guia de PDTIC do SISP v2.1 (30/09/2021)",
+    "normativity": "recomendado"
+  },
+  {
+    "code": "G15",
+    "dimension": "governanca",
+    "text": "O PDTIC se alinha ao PEI/PPA; iniciativas contratáveis são compatibilizadas com o PCA e o PDI/PAA é considerado quando pertinente.",
+    "legalBasis": "Portaria SGD/ME nº 778/2019, art. 6º, II; IN SGD/ME nº 94/2022, arts. 6º–7º; Decreto nº 10.947/2022",
+    "normativity": "recomendado"
+  },
+  {
+    "code": "G16",
+    "dimension": "governanca",
+    "text": "O PDTIC referencia processo institucional de gestão de mudanças, quando aplicável.",
+    "legalBasis": "Guia de PDTIC do SISP v2.1 (30/09/2021)",
+    "normativity": "recomendado"
+  },
+  {
+    "code": "G17",
+    "dimension": "governanca",
+    "text": "O PDTIC pode incluir diagnóstico de maturidade e nível-alvo de governança de TIC.",
+    "legalBasis": "Portaria SGD/ME nº 778/2019, art. 4º, I; Referencial Básico de Governança Organizacional do TCU",
+    "normativity": "recomendado"
+  },
+  {
+    "code": "G18",
+    "dimension": "governanca",
+    "text": "O PDTIC pode registrar benchmarking documental com fontes oficiais disponíveis na data de corte.",
+    "legalBasis": "Fontes oficiais de benchmarking identificadas no corpus",
+    "normativity": "complementar"
+  },
+  {
+    "code": "G19",
+    "dimension": "governanca",
+    "text": "O PDTIC referencia canal de ouvidoria ou processo institucional para recebimento e tratamento de demandas, distinguindo demandas internas e manifestações externas.",
+    "legalBasis": "Lei nº 13.460/2017, art. 10; Guia de PDTIC do SISP v2.1 (30/09/2021)",
+    "normativity": "recomendado"
+  },
+  {
+    "code": "G20",
+    "dimension": "governanca",
+    "text": "O PDTIC define acompanhamento e avaliação formal com periodicidade; relatório anual é adotado quando previsto pela instituição.",
+    "legalBasis": "Portaria SGD/ME nº 778/2019, art. 6º, V; Acórdão TCU nº 1.233/2012",
+    "normativity": "recomendado"
+  }
+]
