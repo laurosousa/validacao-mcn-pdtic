@@ -2,9 +2,11 @@ import { useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 import {
   Activity, ArrowLeft, ArrowRight, ArrowUpRight, Check, CheckCircle2,
   ChevronDown, CircleHelp, ClipboardCheck, FileText, Info, LockKeyhole,
-  Menu, ShieldCheck,
+  Menu, ShieldCheck, Save, Copy, RotateCcw,
 } from 'lucide-react';
-import { requirements as allRequirements, sendSubmission, useConfig } from '@/lib/mcn';
+import { loadDraftRemote, normalizeResumeCode, requirements as allRequirements, saveDraftRemote, sendSubmission, useConfig } from '@/lib/mcn';
+import { TERM_VERSION } from '@/lib/termo';
+import TermoPage from '@/pages/termo';
 import type { Dimension, DimensionInput, ExpertProfile, InstitutionType, McnConfig, Requirement, RequirementRating, SubmissionInput } from '@/lib/mcn';
 import { ErrorBoundary } from '@/components/error-boundary';
 import NotFound from '@/pages/not-found';
@@ -50,6 +52,8 @@ type Draft = {
   ratings: Record<string, RequirementRating>;
   dimensions: DimensionAnswers;
   additionalComments: string;
+  resumeCode?: string;
+  remoteSavedAt?: string;
 };
 
 function emptyDimension(): DimensionInput {
@@ -116,10 +120,15 @@ function HomePage() {
   const [draft, setDraft] = useState<Draft>(readDraft);
   const [receipt, setReceipt] = useState<string | null>(null);
   const [submitState, setSubmitState] = useState<'idle' | 'pending' | 'error'>('idle');
+  const [saveState, setSaveState] = useState<'idle' | 'saving' | 'saved' | 'error'>('idle');
+  const [saveError, setSaveError] = useState('');
+  const [resumeInput, setResumeInput] = useState('');
+  const [resumeState, setResumeState] = useState<'idle' | 'loading' | 'confirm' | 'error'>('idle');
+  const [resumeError, setResumeError] = useState('');
   const requirements = allRequirements;
   const config = configQuery.data;
   const consent = Boolean(draft.consentAccepted);
-  const ready = Boolean(config?.surveyReady && config.tcleUrl && config.submitUrl && config.estimatedMinutes !== null);
+  const ready = Boolean(config?.surveyReady && config.submitUrl && config.estimatedMinutes !== null);
   const groups = useMemo(() => dimensions.reduce((acc, dimension) => {
     acc[dimension] = requirements.filter((item) => item.dimension === dimension);
     return acc;
@@ -131,6 +140,7 @@ function HomePage() {
   const allDimensionRatings = dimensions.every((dim) => draft.dimensions[dim].breadth >= 1 && draft.dimensions[dim].applicability >= 1);
   const allRated = validRequirements && answeredCount === requirements.length;
   const profileReady = Boolean(draft.profile && draft.institutionType && (draft.yearsExperience ?? 0) >= 2 && draft.confirmsNoDirectLink);
+  const hasLocalProgress = draft.step === 'survey' || answeredCount > 0;
 
   useEffect(() => {
     try { localStorage.setItem(storageKey, JSON.stringify(draft)); } catch { /* Storage may be unavailable. */ }
@@ -165,6 +175,41 @@ function HomePage() {
     // Scroll after the new dimension renders so a button that becomes disabled cannot cancel it.
     requestAnimationFrame(() => document.getElementById('participar')?.scrollIntoView({ behavior: 'smooth', block: 'start' }));
   }, [activeDimension]);
+  function saveForLater() {
+    if (!config?.submitUrl || saveState === 'saving') return;
+    setSaveState('saving');
+    const { resumeCode, remoteSavedAt: _savedAt, ...content } = draft;
+    saveDraftRemote(config.submitUrl, resumeCode ?? null, content)
+      .then((result) => { updateDraft({ resumeCode: result.code, remoteSavedAt: result.savedAt }); setSaveState('saved'); })
+      .catch((error: Error) => { setSaveError(error.message); setSaveState('error'); });
+  }
+  function resume(force = false, typed?: string) {
+    const code = normalizeResumeCode(typed ?? resumeInput);
+    if (!code) { setResumeError('Digite o código no formato ABCD-1234.'); setResumeState('error'); return; }
+    if (!config?.submitUrl) return;
+    if (hasLocalProgress && !force) { setResumeState('confirm'); return; }
+    setResumeState('loading');
+    loadDraftRemote(config.submitUrl, code).then((result) => {
+      setDraft({ ...emptyDraft(), ...(result.draft as Partial<Draft>), resumeCode: result.code, remoteSavedAt: result.savedAt });
+      setResumeState('idle'); setResumeInput(''); setSaveState('idle');
+      requestAnimationFrame(() => document.getElementById('participar')?.scrollIntoView({ behavior: 'smooth', block: 'start' }));
+    }).catch((error: Error) => { setResumeError(error.message); setResumeState('error'); });
+  }
+  // Link "…/?retomar=ABCD-1234" opens the saved evaluation.
+  const resumeFromLink = useRef(false);
+  useEffect(() => {
+    if (resumeFromLink.current || !config?.submitUrl) return;
+    resumeFromLink.current = true;
+    const params = new URLSearchParams(window.location.search);
+    const fromLink = params.get('retomar');
+    if (!fromLink) return;
+    params.delete('retomar');
+    const rest = params.toString();
+    window.history.replaceState(null, '', window.location.pathname + (rest ? `?${rest}` : '') + window.location.hash);
+    setResumeInput(fromLink);
+    resume(false, fromLink);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [config?.submitUrl]);
   function submit() {
     if (!ready || !consent || !allRated || !allDimensionRatings || !profileReady || !draft.profile || !draft.institutionType || !config?.submitUrl) return;
     if (submitState === 'pending') return;
@@ -173,6 +218,8 @@ function HomePage() {
       profile: draft.profile,
       yearsExperience: Number(draft.yearsExperience),
       institutionType: draft.institutionType,
+      termVersion: TERM_VERSION,
+      draftCode: draft.resumeCode ?? null,
       hasDirectUFRRLink: false,
       ratings: requirements.map((item) => draft.ratings[item.code]!),
       dimensions: draft.dimensions,
@@ -220,10 +267,10 @@ function HomePage() {
         <div className="readiness-copy">
           <span className="eyebrow-small">{ready ? 'PRONTO PARA PARTICIPAR' : 'INSTRUMENTO EM PREPARAÇÃO'}</span>
           <h2>{ready ? 'A coleta está disponível.' : 'A coleta ainda não está aberta.'}</h2>
-          <p>{ready ? 'Leia o termo de consentimento e, se desejar, comece a avaliação.' : 'A participação será liberada quando a equipe de pesquisa disponibilizar o TCLE e informar a duração pré-testada.'}</p>
+          <p>{ready ? 'Leia o Termo de Participação e, se desejar, comece a avaliação. Você pode salvar e continuar depois.' : 'A participação será liberada quando a equipe de pesquisa conectar a planilha e informar a duração estimada.'}</p>
         </div>
         <div className="readiness-details">
-          <div><span>TCLE</span>{configQuery.isLoading ? <b>Consultando…</b> : config?.tcleUrl ? <a href={config.tcleUrl} target="_blank" rel="noreferrer">Ler termo <ArrowUpRight size={13} /></a> : <b className="unset">Não configurado</b>}</div>
+          <div><span>TERMO</span><a href={`${basePath}/termo`} target="_blank" rel="noreferrer" data-testid="link-term">Ler termo ({TERM_VERSION}) <ArrowUpRight size={13} /></a></div>
           <div><span>DURAÇÃO</span>{configQuery.isLoading ? <b>Consultando…</b> : config?.estimatedMinutes !== null && config?.estimatedMinutes !== undefined ? <b>{config.estimatedMinutes} min</b> : <b className="unset">Não informada</b>}</div>
         </div>
       </section>
@@ -262,9 +309,13 @@ function HomePage() {
         {configQuery.isLoading ? <LoadingState label="Preparando o instrumento e seus requisitos" /> :
           !validRequirements ? <Notice tone="warning">O instrumento retornou {requirements.length} requisitos. Para proteger a integridade da pesquisa, a avaliação só poderá começar quando os 80 requisitos estiverem disponíveis.</Notice> :
           !ready ? <div className="closed-card"><div className="closed-seal"><LockKeyhole size={20} /></div><div><b>Participação temporariamente indisponível</b><p>Esta página permanecerá aberta para consulta. Nenhuma resposta pode ser enviada antes da liberação formal da coleta.</p></div><span className="closed-state">AGUARDANDO CONFIGURAÇÃO</span></div> :
-          draft.step === 'profile' ? <ProfileSetup draft={draft} onChange={updateDraft} consent={consent} setConsent={(value) => updateDraft({ consentAccepted: value })} config={config} onStart={() => updateDraft({ step: 'survey', activeDimension: dimensions[0] })} />
-            : <SurveyWorkspace draft={draft} activeDimension={activeDimension} activeItems={activeItems} groups={groups} answeredCount={answeredCount} total={requirements.length} onChange={updateDraft} onRating={updateRating} onDimension={updateDimension} onNavigate={goToDimension} onSubmit={submit} submitPending={submitState === 'pending'} submitError={submitState === 'error'} />}
-        {submitState === 'error' && <ErrorState retry={submit} message="Sua resposta não foi enviada. Verifique sua conexão e tente de novo; as informações continuam salvas neste dispositivo." />}
+          draft.step === 'profile' ? <>
+            <ResumeCard value={resumeInput} onChange={(v) => { setResumeInput(v); if (resumeState !== 'loading') setResumeState('idle'); }} state={resumeState} error={resumeError} onResume={() => resume(false)} onConfirm={() => resume(true)} onCancel={() => setResumeState('idle')} />
+            <ProfileSetup draft={draft} onChange={updateDraft} consent={consent} setConsent={(value) => updateDraft({ consentAccepted: value })} config={config} onStart={() => updateDraft({ step: 'survey', activeDimension: dimensions[0] })} />
+          </>
+            : <>{resumeState !== 'idle' && <ResumeCard value={resumeInput} onChange={(v) => { setResumeInput(v); setResumeState('idle'); }} state={resumeState} error={resumeError} onResume={() => resume(false)} onConfirm={() => resume(true)} onCancel={() => setResumeState('idle')} />}
+            <SurveyWorkspace draft={draft} activeDimension={activeDimension} activeItems={activeItems} groups={groups} answeredCount={answeredCount} total={requirements.length} onChange={updateDraft} onRating={updateRating} onDimension={updateDimension} onNavigate={goToDimension} onSubmit={submit} submitPending={submitState === 'pending'} submitError={submitState === 'error'} save={{ state: saveState, error: saveError, code: draft.resumeCode, savedAt: draft.remoteSavedAt, onSave: saveForLater, onClose: () => setSaveState('idle') }} /></>}
+        {submitState === 'error' && <ErrorState retry={submit} message="Sua resposta não foi enviada. Verifique sua conexão e tente de novo; as informações continuam salvas neste aparelho." />}
       </section>
       <Footer />
     </main>
@@ -300,13 +351,13 @@ function ProfileSetup({ draft, onChange, consent, setConsent, config, onStart }:
       </div>
     </div>
     <div className="consent-panel">
-      <div className="consent-title"><FileText size={18} /><div><b>Consentimento livre e esclarecido</b><p>Leia o TCLE antes de decidir participar.</p></div></div>
-      {config?.tcleUrl && <a href={config.tcleUrl} target="_blank" rel="noreferrer" className="tcle-link">Abrir TCLE <ArrowUpRight size={14} /></a>}
-      <label className="consent-check"><input type="checkbox" checked={consent} onChange={(e) => setConsent(e.target.checked)} data-testid="input-consent" /><span className="check-box">{consent && <Check size={13} />}</span><span>Li o termo, compreendi as informações e aceito participar voluntariamente.</span></label>
+      <div className="consent-title"><FileText size={18} /><div><b>Termo de Participação e Uso dos Dados</b><p>Leia o termo antes de decidir participar.</p></div></div>
+      <a href={`${basePath}/termo`} target="_blank" rel="noreferrer" className="tcle-link">Abrir termo ({TERM_VERSION}) <ArrowUpRight size={14} /></a>
+      <label className="consent-check"><input type="checkbox" checked={consent} onChange={(e) => setConsent(e.target.checked)} data-testid="input-consent" /><span className="check-box">{consent && <Check size={13} />}</span><span>Li e aceito o Termo de Participação e Uso dos Dados ({TERM_VERSION}) e participo voluntariamente.</span></label>
       <p className="lgpd-note"><b>Tratamento de dados (LGPD).</b> As respostas são usadas apenas nesta pesquisa acadêmica (Lei nº 13.709/2018, arts. 4º, II, “b”, e 7º, IV). Ficam guardadas em planilha institucional da UFRR, com acesso restrito ao pesquisador e ao orientador, por no mínimo cinco anos, e são divulgadas somente de forma agregada. Dúvidas ou pedido de exclusão: {config?.contactEmail ?? 'lauro.sousa@ufrr.br'}.</p>
     </div>
     <label className="anonymous-confirm"><input type="checkbox" checked={Boolean(draft.confirmsNoDirectLink)} onChange={(event) => onChange({ confirmsNoDirectLink: event.target.checked })} data-testid="input-no-direct-ufrr-link" /><span className="check-box">{draft.confirmsNoDirectLink && <Check size={13} />}</span><ShieldCheck size={18} /><span>Confirmo que não tenho vínculo direto com a UFRR e evitarei incluir dados que me identifiquem nos comentários.</span></label>
-    <div className="setup-actions"><span><LockKeyhole size={14} /> Progresso salvo apenas neste dispositivo</span><button className="button button-primary" disabled={!valid} onClick={onStart} data-testid="button-begin-survey">Começar avaliação <ArrowRight size={16} /></button></div>
+    <div className="setup-actions"><span><LockKeyhole size={14} /> Progresso salvo neste aparelho</span><button className="button button-primary" disabled={!valid} onClick={onStart} data-testid="button-begin-survey">Começar avaliação <ArrowRight size={16} /></button></div>
   </div>;
 }
 
@@ -322,12 +373,14 @@ function RatingScale({ value, onChange, label, name }: { value: number; onChange
   </fieldset>;
 }
 
-function SurveyWorkspace({ draft, activeDimension, activeItems, groups, answeredCount, total, onChange, onRating, onDimension, onNavigate, onSubmit, submitPending, submitError }: {
+type SaveProps = { state: 'idle' | 'saving' | 'saved' | 'error'; error: string; code?: string; savedAt?: string; onSave: () => void; onClose: () => void };
+
+function SurveyWorkspace({ draft, activeDimension, activeItems, groups, answeredCount, total, onChange, onRating, onDimension, onNavigate, onSubmit, submitPending, submitError, save }: {
   draft: Draft; activeDimension: Dimension; activeItems: Requirement[]; groups: Record<Dimension, Requirement[]>;
   answeredCount: number; total: number; onChange: (patch: Partial<Draft>) => void;
   onRating: (item: Requirement, key: 'clarity' | 'relevance', value: number) => void;
   onDimension: (key: keyof DimensionInput, value: string | number) => void;
-  onNavigate: (index: number) => void; onSubmit: () => void; submitPending: boolean; submitError: boolean;
+  onNavigate: (index: number) => void; onSubmit: () => void; submitPending: boolean; submitError: boolean; save: SaveProps;
 }) {
   const currentIndex = dimensions.indexOf(activeDimension);
   const allDone = answeredCount === total && dimensions.every((dim) => draft.dimensions[dim].breadth >= 1 && draft.dimensions[dim].applicability >= 1);
@@ -346,7 +399,8 @@ function SurveyWorkspace({ draft, activeDimension, activeItems, groups, answered
           </button>;
         })}
       </nav>
-      <div className="rail-privacy"><LockKeyhole size={15} /><p>Sem identificação direta.<br />Rascunho local neste aparelho.</p></div>
+      <div className="rail-privacy"><LockKeyhole size={15} /><p>Sem identificação direta.<br />Rascunho salvo neste aparelho.</p></div>
+      <button type="button" className="button button-outline button-small rail-save" onClick={save.onSave} disabled={save.state === 'saving'} data-testid="button-save-later-rail"><Save size={15} /> Salvar e continuar depois</button>
     </aside>
     <section className="survey-content">
       <div className="survey-mobile-top">
@@ -381,10 +435,15 @@ function SurveyWorkspace({ draft, activeDimension, activeItems, groups, answered
       </section>
       <div className="survey-navigation">
         <button className="button button-outline" disabled={currentIndex === 0} onClick={() => onNavigate(currentIndex - 1)} data-testid="button-previous-dimension"><ArrowLeft size={16} /> Anterior</button>
-        <span className="autosave-note"><CheckCircle2 size={14} /> Rascunho salvo automaticamente</span>
+        <div className="save-later">
+          <button type="button" className="button button-outline save-later-button" onClick={save.onSave} disabled={save.state === 'saving'} data-testid="button-save-later"><Save size={16} /> {save.state === 'saving' ? 'Salvando…' : 'Salvar e continuar depois'}</button>
+          <span className="autosave-note"><CheckCircle2 size={14} /> Também salvo neste aparelho</span>
+        </div>
         {currentIndex < dimensions.length - 1 ? <button className="button button-primary" onClick={() => onNavigate(currentIndex + 1)} data-testid="button-next-dimension">Próxima dimensão <ArrowRight size={16} /></button> :
           <button className="button button-primary" onClick={() => document.getElementById('survey-final-submit')?.scrollIntoView({ behavior: 'smooth', block: 'center' })} data-testid="button-review-response">Ir para envio <ArrowRight size={16} /></button>}
       </div>
+      {save.state === 'saved' && save.code && <SavedPanel code={save.code} onClose={save.onClose} />}
+      {save.state === 'error' && <p className="inline-error" role="alert" data-testid="text-save-error">{save.error}</p>}
       {currentIndex === dimensions.length - 1 && <div className="final-submit" id="survey-final-submit">
         <div className="final-submit-copy"><span className="section-number">ENVIO</span><h3>Uma última confirmação</h3><p>{allDone ? 'As 80 avaliações e as quatro sínteses estão preenchidas. Você pode enviar sua contribuição.' : `Faltam avaliações ou sínteses. Requisitos respondidos: ${answeredCount} de ${total}.`}</p></div>
         <label className="additional-label">Há alguma observação adicional sobre a MCN–PDTIC ou sobre esta avaliação? (opcional)<textarea value={draft.additionalComments} onChange={(e) => onChange({ additionalComments: e.target.value })} placeholder="Compartilhe qualquer observação que ajude a interpretar sua avaliação." data-testid="input-additional-comments" /></label>
@@ -393,6 +452,49 @@ function SurveyWorkspace({ draft, activeDimension, activeItems, groups, answered
       </div>}
     </section>
   </div>;
+}
+
+async function copyText(text: string, fallbackId: string) {
+  try { await navigator.clipboard.writeText(text); return true; }
+  catch {
+    const el = document.getElementById(fallbackId);
+    if (el) { const range = document.createRange(); range.selectNodeContents(el); const sel = window.getSelection(); sel?.removeAllRanges(); sel?.addRange(range); }
+    return false;
+  }
+}
+
+function SavedPanel({ code, onClose }: { code: string; onClose: () => void }) {
+  const link = `${window.location.origin}${basePath}/?retomar=${code}`;
+  const [copied, setCopied] = useState<'' | 'code' | 'link'>('');
+  const panel = useRef<HTMLDivElement>(null);
+  useEffect(() => { panel.current?.scrollIntoView({ behavior: 'smooth', block: 'center' }); }, [code]);
+  return <div className="saved-panel fade-up" role="status" ref={panel} data-testid="panel-saved">
+    <div className="saved-head"><CheckCircle2 size={20} /><b>Avaliação salva. Você pode fechar a página.</b></div>
+    <p>Para continuar depois, neste ou em outro aparelho, use o código ou o link abaixo. Guarde-os: valem por 60 dias.</p>
+    <div className="resume-code" id="resume-code-text" data-testid="text-resume-code">{code}</div>
+    <div className="saved-actions">
+      <button type="button" className="button button-primary button-small" onClick={() => copyText(code, 'resume-code-text').then((ok) => ok && setCopied('code'))} data-testid="button-copy-code"><Copy size={14} /> {copied === 'code' ? 'Código copiado' : 'Copiar código'}</button>
+      <button type="button" className="button button-outline button-small" onClick={() => copyText(link, 'resume-link-text').then((ok) => ok && setCopied('link'))} data-testid="button-copy-link"><Copy size={14} /> {copied === 'link' ? 'Link copiado' : 'Copiar link'}</button>
+      <button type="button" className="button button-outline button-small" onClick={onClose}>Continuar agora</button>
+    </div>
+    <p className="saved-link" id="resume-link-text">{link}</p>
+  </div>;
+}
+
+function ResumeCard({ value, onChange, state, error, onResume, onConfirm, onCancel }: {
+  value: string; onChange: (value: string) => void; state: 'idle' | 'loading' | 'confirm' | 'error'; error: string;
+  onResume: () => void; onConfirm: () => void; onCancel: () => void;
+}) {
+  return <form className="resume-card" onSubmit={(event) => { event.preventDefault(); onResume(); }} data-testid="card-resume">
+    <div className="resume-copy"><RotateCcw size={18} /><div><b>Já começou a avaliação?</b><p>Digite o código de retomada que você recebeu ao salvar.</p></div></div>
+    <div className="resume-row">
+      <label htmlFor="resume-code" className="sr-only">Código de retomada</label>
+      <input id="resume-code" value={value} onChange={(event) => onChange(event.target.value)} placeholder="ABCD-1234" autoComplete="off" autoCapitalize="characters" spellCheck={false} data-testid="input-resume-code" />
+      <button type="submit" className="button button-outline button-small" disabled={state === 'loading'} data-testid="button-resume">{state === 'loading' ? 'Buscando…' : 'Continuar'}</button>
+    </div>
+    {state === 'error' && <p className="inline-error" role="alert" data-testid="text-resume-error">{error}</p>}
+    {state === 'confirm' && <div className="resume-confirm" role="alert"><p>Já existe uma avaliação em andamento neste aparelho. Continuar com o código vai substituí-la.</p><div><button type="button" className="button button-primary button-small" onClick={onConfirm} data-testid="button-resume-confirm">Substituir e continuar</button><button type="button" className="button button-outline button-small" onClick={onCancel}>Manter a deste aparelho</button></div></div>}
+  </form>;
 }
 
 function SubmissionSuccess({ receipt, onHome }: { receipt: string; onHome: () => void }) {
@@ -413,6 +515,7 @@ function Footer() {
 function Routes() {
   return <Switch>
     <Route path="/" component={HomePage} />
+    <Route path="/termo" component={TermoPage} />
     <Route component={NotFound} />
   </Switch>;
 }

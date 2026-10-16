@@ -896,3 +896,47 @@ a { color: inherit; }
 .institution-select:focus-visible { outline: 3px solid var(--ufrr-green); outline-offset: 2px; }
 .lgpd-note { margin: 14px 0 0; font-size: 14px; line-height: 1.6; color: var(--muted-ink); }
 .lgpd-note b { color: var(--ink); }
+
+/* Acessibilidade: texto só para leitores de tela */
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+
+/* Salvar e continuar depois */
+.save-later { display: flex; flex-direction: column; align-items: center; gap: 6px; }
+.save-later-button { min-height: 44px; }
+.rail-save { margin: 14px 0 0; width: 100%; justify-content: center; }
+.saved-panel { margin-top: 18px; padding: 20px 22px; background: #eef6f1; border: 1px solid #cfe8d8; border-left: 4px solid var(--ufrr-green); }
+.saved-head { display: flex; align-items: center; gap: 9px; color: var(--ink); font-size: 17px; }
+.saved-head svg { color: var(--ufrr-green); flex: none; }
+.saved-panel p { margin: 10px 0 0; color: var(--muted-ink); font-size: 15px; line-height: 1.55; }
+.resume-code { margin: 14px 0 0; font-size: 30px; font-weight: 700; letter-spacing: .12em; color: var(--ufrr-navy); font-variant-numeric: tabular-nums; user-select: all; }
+.saved-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+.saved-link { word-break: break-all; font-size: 13px !important; user-select: all; }
+.resume-card { margin: 0 0 16px; padding: 16px 20px; background: var(--paper-light); border: 1px dashed var(--line); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 20px; }
+.resume-copy { display: flex; gap: 10px; align-items: flex-start; min-width: 0; }
+.resume-copy svg { color: var(--forest); margin-top: 3px; flex: none; }
+.resume-copy b { color: var(--ink); font-size: 16px; }
+.resume-copy p { margin: 3px 0 0; color: var(--muted-ink); font-size: 14px; }
+.resume-row { display: flex; gap: 8px; }
+.resume-row input { width: 150px; max-width: 100%; padding: 8px 12px; font: inherit; font-size: 16px; letter-spacing: .08em; text-transform: uppercase; color: var(--ink); background: var(--paper); border: 1px solid var(--line); border-radius: 6px; }
+.resume-row input:focus-visible { outline: 3px solid var(--ufrr-green); outline-offset: 2px; }
+.resume-card .inline-error, .resume-confirm { flex-basis: 100%; margin: 0; }
+.resume-confirm p { margin: 0 0 10px; color: var(--ink); font-size: 14px; }
+.resume-confirm div { display: flex; flex-wrap: wrap; gap: 8px; }
+
+/* Página do termo */
+.term-page { min-height: 100dvh; background: var(--paper); padding: 32px max(16px, env(safe-area-inset-left, 0px)) 64px; }
+.term-wrap { max-width: 780px; margin: 0 auto; }
+.term-actions { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 10px; margin-bottom: 18px; }
+.term-doc { background: var(--paper-light); border: 1px solid var(--line); padding: 36px 40px; color: var(--ink); }
+.term-doc h1 { font-size: 34px; line-height: 1.15; margin: 10px 0 6px; text-wrap: balance; }
+.term-subtitle { color: var(--muted-ink); font-size: 16px; margin: 0 0 18px; }
+.term-doc h2 { font-size: 17px; margin: 24px 0 6px; color: var(--forest); }
+.term-doc p { font-size: 16px; line-height: 1.7; margin: 0; max-width: 68ch; }
+.term-footer { margin-top: 30px !important; padding-top: 14px; border-top: 1px solid var(--line); color: var(--muted-ink); font-size: 13px !important; }
+@media (max-width: 680px) { .term-doc { padding: 22px 18px; } .term-doc h1 { font-size: 26px; } }
+@media print {
+  .no-print, .public-shell::before { display: none !important; }
+  .term-page { padding: 0; background: #fff; }
+  .term-doc { border: 0; padding: 0; }
+  .term-doc p, .term-doc h2 { break-inside: avoid; }
+}

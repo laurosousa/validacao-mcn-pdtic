@@ -9,13 +9,18 @@ Edite o arquivo [`public/config.json`](public/config.json) aqui no GitHub (ícon
 
 | Campo | O que colocar |
 |---|---|
-| `tcleUrl` | Link do TCLE (precisa começar com `https://`) |
 | `estimatedMinutes` | Duração estimada, em minutos (ex.: `40`) |
 | `submitUrl` | URL do app da Web da planilha (termina em `/exec`) |
 | `contactEmail` | E-mail de contato da pesquisa |
 
 Ao salvar ("Commit changes"), o site é publicado de novo sozinho em 1 a 2 minutos.
-Enquanto algum campo estiver vazio, o site mostra "A coleta ainda não está aberta".
+Enquanto `submitUrl` ou `estimatedMinutes` estiver vazio, o site mostra "A coleta ainda não está aberta".
+
+O Termo de Participação fica em [`src/pages/termo.tsx`](src/pages/termo.tsx) e é publicado em `/termo`. Ao mudar o texto, suba a versão em [`src/lib/termo.ts`](src/lib/termo.ts); a planilha grava a versão aceita por cada participante.
+
+## Salvar e continuar depois
+
+O participante pode salvar a avaliação e receber um código (ex.: `ABCD-1234`) e um link `…/?retomar=ABCD-1234` para continuar no mesmo ou em outro aparelho. Os rascunhos ficam na aba **Rascunhos** da planilha e são apagados no envio final ou após 60 dias.
 
 ## Onde ficam as respostas
 

@@ -7,7 +7,8 @@
  *      Executar como: Eu. Quem pode acessar: Qualquer pessoa.
  *   3. Copie o URL do app da Web (termina em /exec) e coloque em "submitUrl" no config.json do site.
  *
- * Abas criadas automaticamente: "Respostas" (uma linha por especialista) e "IVC" (resultados).
+ * Abas criadas automaticamente: "Respostas" (uma linha por especialista), "IVC" (resultados) e
+ * "Rascunhos" (avaliações salvas para continuar depois; apagadas no envio final ou após 60 dias).
  * O formulário não recebe nome, e-mail nem instituição; o Google não repassa ao script quem enviou.
  */
 
@@ -29,8 +30,16 @@ var INSTITUTIONS = {
 var ITEM_THRESHOLD = 0.78;
 var GLOBAL_THRESHOLD = 0.8;
 var MAX_TEXT = 4000;
+var MAX_DRAFT = 45000;
+var DRAFT_DAYS = 60;
+var CODE_CHARS = 'ABCDEFGHJKMNPQRSTUVWXYZ23456789';
 
-function doGet() {
+function doGet(e) {
+  var p = (e && e.parameter) || {};
+  if (p.action === 'loadDraft') {
+    try { return json_(loadDraft_(String(p.code || ''))); }
+    catch (error) { return json_({ ok: false, error: String(error && error.message ? error.message : error) }); }
+  }
   return json_({ ok: true, status: 'Planilha conectada. Envie as respostas pelo site.' });
 }
 
@@ -38,12 +47,17 @@ function doPost(e) {
   var lock = LockService.getScriptLock();
   try {
     var input = JSON.parse((e && e.postData && e.postData.contents) || '{}');
+    if (input.action === 'saveDraft') {
+      lock.waitLock(20000);
+      return json_(saveDraft_(input.code, input.draft));
+    }
     var row = validate_(input);
     lock.waitLock(20000);
     var sheet = responsesSheet_();
     var id = Utilities.getUuid();
     var submittedAt = new Date();
     sheet.appendRow([id, submittedAt].concat(row));
+    if (input.draftCode) deleteDraft_(String(input.draftCode));
     recalcularIVC();
     return json_({ ok: true, id: id, submittedAt: submittedAt.toISOString() });
   } catch (error) {
@@ -61,7 +75,7 @@ function headers_() {
   var head = ['id', 'enviado_em', 'perfil', 'anos_experiencia'];
   REQUIREMENTS.forEach(function (r) { head.push(r[0] + '_clareza', r[0] + '_relevancia'); });
   DIMENSIONS.forEach(function (d) { head.push(d + '_abrangencia', d + '_aplicabilidade', d + '_sugestoes', d + '_sobreposicoes'); });
-  head.push('comentarios_adicionais', 'tipo_instituicao');
+  head.push('comentarios_adicionais', 'tipo_instituicao', 'versao_termo');
   return head;
 }
 
@@ -96,7 +110,7 @@ function text_(value) {
 }
 
 function validate_(input) {
-  if (input.consentAccepted !== true) throw new Error('É necessário aceitar o TCLE.');
+  if (input.consentAccepted !== true) throw new Error('É necessário aceitar o Termo de Participação.');
   if (input.hasDirectUFRRLink !== false) throw new Error('Confirmação de vínculo ausente.');
   if (!PROFILES[input.profile]) throw new Error('Perfil inválido.');
   var years = Number(input.yearsExperience);
@@ -122,6 +136,7 @@ function validate_(input) {
   row.push(text_(input.additionalComments));
   if (input.institutionType !== undefined && !INSTITUTIONS[input.institutionType]) throw new Error('Tipo de instituição inválido.');
   row.push(input.institutionType ? INSTITUTIONS[input.institutionType] : 'não informado');
+  row.push(typeof input.termVersion === 'string' ? input.termVersion.slice(0, 20) : 'não informado');
   return row;
 }
 
@@ -201,4 +216,78 @@ function recalcularIVC() {
   values.forEach(function (r, i) {
     if (/^(IVC GLOBAL|POR DIMENSÃO|POR ITEM)/.test(String(r[0]))) sheet.getRange(i + 1, 1, 1, 6).setFontWeight('bold');
   });
+}
+
+
+/* ---------- Rascunhos: salvar e continuar depois ---------- */
+
+function draftsSheet_() {
+  var book = SpreadsheetApp.getActiveSpreadsheet();
+  var sheet = book.getSheetByName('Rascunhos');
+  if (!sheet) {
+    sheet = book.insertSheet('Rascunhos');
+    sheet.getRange(1, 1, 1, 3).setValues([['codigo', 'atualizado_em', 'rascunho']]).setFontWeight('bold');
+    sheet.setFrozenRows(1);
+  }
+  return sheet;
+}
+
+function validCode_(code) { return /^[A-HJKMNP-Z2-9]{4}-[A-HJKMNP-Z2-9]{4}$/.test(code); }
+
+function newCode_(existing) {
+  for (var tries = 0; tries < 20; tries++) {
+    var c = '';
+    for (var i = 0; i < 8; i++) {
+      c += CODE_CHARS.charAt(Math.floor(Math.random() * CODE_CHARS.length));
+      if (i === 3) c += '-';
+    }
+    if (!existing[c]) return c;
+  }
+  throw new Error('Não foi possível gerar o código. Tente de novo.');
+}
+
+function findDraftRow_(values, code) {
+  for (var r = 1; r < values.length; r++) if (values[r][0] === code) return r + 1;
+  return 0;
+}
+
+function saveDraft_(code, draft) {
+  if (!draft || typeof draft !== 'object' || Array.isArray(draft)) throw new Error('Rascunho inválido.');
+  var text = JSON.stringify(draft);
+  if (text.length > MAX_DRAFT) throw new Error('O rascunho ficou grande demais. Encurte os comentários.');
+  var sheet = draftsSheet_();
+  var values = sheet.getDataRange().getValues();
+  var now = new Date();
+  // Limpa rascunhos antigos
+  for (var r = values.length; r >= 2; r--) {
+    var t = values[r - 1][1];
+    if (t instanceof Date && now - t > DRAFT_DAYS * 86400000) sheet.deleteRow(r);
+  }
+  values = sheet.getDataRange().getValues();
+  var row = code && validCode_(String(code)) ? findDraftRow_(values, String(code)) : 0;
+  if (!row) {
+    var existing = {};
+    values.forEach(function (v) { existing[v[0]] = true; });
+    code = newCode_(existing);
+    sheet.appendRow([code, now, text]);
+  } else {
+    sheet.getRange(row, 2, 1, 2).setValues([[now, text]]);
+  }
+  return { ok: true, code: String(code), savedAt: now.toISOString() };
+}
+
+function loadDraft_(code) {
+  code = code.trim().toUpperCase();
+  if (!validCode_(code)) throw new Error('Código inválido. Ele tem o formato ABCD-1234.');
+  var values = draftsSheet_().getDataRange().getValues();
+  var row = findDraftRow_(values, code);
+  if (!row) throw new Error('Código não encontrado. Ele pode ter expirado (60 dias) ou já ter sido enviado.');
+  return { ok: true, code: code, savedAt: values[row - 1][1] instanceof Date ? values[row - 1][1].toISOString() : '', draft: JSON.parse(values[row - 1][2]) };
+}
+
+function deleteDraft_(code) {
+  if (!validCode_(code)) return;
+  var sheet = draftsSheet_();
+  var row = findDraftRow_(sheet.getDataRange().getValues(), code);
+  if (row) sheet.deleteRow(row);
 }

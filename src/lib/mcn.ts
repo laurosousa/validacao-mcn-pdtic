@@ -20,6 +20,8 @@ export interface SubmissionInput {
   profile: ExpertProfile;
   yearsExperience: number;
   institutionType: InstitutionType;
+  termVersion: string;
+  draftCode: string | null;
   hasDirectUFRRLink: false;
   ratings: RequirementRating[];
   dimensions: Record<Dimension, DimensionInput>;
@@ -56,7 +58,7 @@ export async function loadConfig(): Promise<McnConfig> {
   const minutes = Number(raw.estimatedMinutes);
   const estimatedMinutes = Number.isSafeInteger(minutes) && minutes > 0 ? minutes : null;
   const contactEmail = typeof raw.contactEmail === 'string' && raw.contactEmail.trim() ? raw.contactEmail.trim() : 'lauro.sousa@ufrr.br';
-  return { tcleUrl, submitUrl, estimatedMinutes, contactEmail, surveyReady: Boolean(tcleUrl && submitUrl && estimatedMinutes) };
+  return { tcleUrl, submitUrl, estimatedMinutes, contactEmail, surveyReady: Boolean(submitUrl && estimatedMinutes) };
 }
 
 export function useConfig() {
@@ -89,4 +91,36 @@ export async function sendSubmission(submitUrl: string, payload: SubmissionInput
   const result = (await response.json()) as { ok?: boolean; id?: string; submittedAt?: string; error?: string };
   if (!result.ok || !result.id) throw new Error(result.error || 'Resposta inesperada da planilha.');
   return { id: result.id, submittedAt: result.submittedAt ?? new Date().toISOString() };
+}
+
+/** Saves an unfinished evaluation in the research spreadsheet and returns its resume code (ABCD-1234). */
+export async function saveDraftRemote(submitUrl: string, code: string | null, draft: object): Promise<{ code: string; savedAt: string }> {
+  const response = await fetch(submitUrl, {
+    method: 'POST',
+    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+    body: JSON.stringify({ action: 'saveDraft', code, draft }),
+    redirect: 'follow',
+  });
+  if (!response.ok) throw new Error('Não foi possível salvar agora. Verifique sua conexão e tente de novo.');
+  const result = (await response.json()) as { ok?: boolean; code?: string; savedAt?: string; error?: string };
+  if (!result.ok || !result.code) throw new Error(result.error || 'Não foi possível salvar agora.');
+  return { code: result.code, savedAt: result.savedAt ?? new Date().toISOString() };
+}
+
+/** Loads an evaluation saved with saveDraftRemote. */
+export async function loadDraftRemote(submitUrl: string, code: string): Promise<{ code: string; savedAt: string; draft: Record<string, unknown> }> {
+  const url = new URL(submitUrl);
+  url.searchParams.set('action', 'loadDraft');
+  url.searchParams.set('code', code);
+  const response = await fetch(url.toString(), { redirect: 'follow' });
+  if (!response.ok) throw new Error('Não foi possível buscar o código agora. Verifique sua conexão.');
+  const result = (await response.json()) as { ok?: boolean; code?: string; savedAt?: string; draft?: Record<string, unknown>; error?: string };
+  if (!result.ok || !result.draft) throw new Error(result.error || 'Código não encontrado.');
+  return { code: result.code ?? code, savedAt: result.savedAt ?? '', draft: result.draft };
+}
+
+/** Accepts "abcd1234", "ABCD-1234" or with spaces; returns "ABCD-1234" or null. */
+export function normalizeResumeCode(value: string): string | null {
+  const raw = value.toUpperCase().replace(/[^A-Z0-9]/g, '');
+  return raw.length === 8 ? `${raw.slice(0, 4)}-${raw.slice(4)}` : null;
 }
