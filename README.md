@@ -20,7 +20,7 @@ O Termo de Participação fica em [`src/pages/termo.tsx`](src/pages/termo.tsx) e
 
 ## Salvar e continuar depois
 
-O participante pode salvar a avaliação e receber um código (ex.: `ABCD-1234`) e um link `…/?retomar=ABCD-1234` para continuar no mesmo ou em outro aparelho. Os rascunhos ficam na aba **Rascunhos** da planilha e são apagados no envio final ou após 60 dias.
+As respostas são salvas automaticamente no navegador do participante. Ao voltar ao site no mesmo aparelho, ele vê "Bem-vindo de volta" e o botão **Continuar de onde parei**, que leva ao primeiro requisito sem resposta. Nada fica guardado na planilha antes do envio final.
 
 ## Onde ficam as respostas
 

@@ -23,13 +23,13 @@ export default function TermoPage() {
           <p>Avaliar se os 80 requisitos da MCN-PDTIC são claros, relevantes, abrangentes e aplicáveis à análise de um PDTIC. Você avalia o <b>instrumento</b>, não uma instituição nem o PDTIC da UFRR.</p>
 
           <h2>O que você fará</h2>
-          <p>Atribuir notas de 1 a 4 a cada requisito (clareza e relevância) e a cada dimensão (abrangência e aplicabilidade). Se quiser, também pode deixar comentários. O tempo estimado é de <b>40 minutos</b>. Você pode salvar e continuar depois, no mesmo aparelho ou em outro, usando um código de retomada.</p>
+          <p>Atribuir notas de 1 a 4 a cada requisito (clareza e relevância) e a cada dimensão (abrangência e aplicabilidade). Se quiser, também pode deixar comentários. O tempo estimado é de <b>40 minutos</b>. Você pode parar e continuar depois: o progresso fica salvo no seu navegador, neste aparelho.</p>
 
           <h2>Participação voluntária</h2>
           <p>Você pode desistir a qualquer momento antes de enviar, sem nenhum prejuízo. Depois do envio, não é possível localizar nem excluir uma resposta específica, porque nenhuma resposta é identificada.</p>
 
           <h2>Dados coletados</h2>
-          <p>Perfil profissional, anos de experiência, tipo de instituição, as notas e os comentários. <b>Não</b> coletamos nome, e-mail nem o nome da instituição. Se você usar o código de retomada, o rascunho fica guardado com esse código até o envio final ou por até 60 dias, e depois é apagado.</p>
+          <p>Perfil profissional, anos de experiência, tipo de instituição, as notas e os comentários. <b>Não</b> coletamos nome, e-mail nem o nome da instituição.</p>
 
           <h2>Uso e guarda</h2>
           <p>As respostas são usadas apenas nesta pesquisa (Lei nº 13.709/2018, arts. 4º, II, “b”, e 7º, IV). Ficam guardadas em planilha institucional da UFRR, com acesso restrito ao pesquisador e ao orientador, por no mínimo cinco anos. São divulgadas somente de forma agregada.</p>
