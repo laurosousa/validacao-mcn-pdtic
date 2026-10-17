@@ -315,16 +315,20 @@ function ProfileSetup({ draft, onChange, consent, setConsent, config, onStart }:
           </label>)}
         </div>
       </fieldset>
+      <div className="field-pair">
       <div className="experience-field">
         <label htmlFor="years-experience">Anos de experiência profissional</label>
-        <p>É necessário ter pelo menos 2 anos de experiência.</p>
+        <p>Mínimo de 2 anos.</p>
         <div className="number-input-wrap"><input id="years-experience" type="number" inputMode="numeric" min={2} step={1} value={draft.yearsExperience ?? ''} onChange={(event) => onChange({ yearsExperience: Number(event.target.value) })} placeholder="Ex.: 8" data-testid="input-years-experience" /><span>anos</span></div>
-        <label htmlFor="institution-type" className="institution-label">Tipo de instituição em que atua</label>
-        <p>Informe só o tipo; não pedimos o nome da instituição.</p>
+      </div>
+      <div className="experience-field">
+        <label htmlFor="institution-type">Tipo de instituição em que atua</label>
+        <p>Só o tipo; não pedimos o nome.</p>
         <select id="institution-type" className="institution-select" value={draft.institutionType ?? ''} onChange={(event) => onChange({ institutionType: (event.target.value || undefined) as InstitutionType | undefined })} data-testid="input-institution-type">
           <option value="">Selecione…</option>
           {(Object.keys(institutionNames) as InstitutionType[]).map((type) => <option key={type} value={type}>{institutionNames[type]}</option>)}
         </select>
+      </div>
       </div>
     </div>
     <div className="consent-panel">

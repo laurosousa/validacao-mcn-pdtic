@@ -399,7 +399,11 @@ a { color: inherit; }
 .setup-head h3 { margin: 7px 0 0; font-family: var(--app-font-serif); font-size: 26px; font-weight: 500; }
 .step-count { display: flex; flex: none; white-space: nowrap; align-items: center; gap: 7px; font-family: var(--app-font-mono); color: var(--muted-ink); font-size: 13px; letter-spacing: .1em; }
 .step-count i { width: 20px; height: 1px; background: var(--ochre); }
-.setup-grid { display: grid; grid-template-columns: 1.3fr .7fr; gap: 34px; }
+.setup-grid { display: grid; grid-template-columns: 1fr; gap: 26px; }
+/* Anos e tipo de instituição lado a lado: títulos, textos e caixas na mesma linha */
+.field-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 0 24px; }
+.field-pair .experience-field { display: grid; grid-template-rows: subgrid; grid-row: span 3; margin: 0; }
+.field-pair .experience-field > * { margin-top: 0; }
 .form-fieldset { margin: 0; padding: 0; border: 0; min-width: 0; }
 .form-fieldset legend, .experience-field label { display: block; color: var(--ink); font-size: 16px; font-weight: 600; margin-bottom: 11px; }
 .profile-options { display: grid; gap: 7px; }
@@ -695,7 +699,8 @@ a { color: inherit; }
   .setup-card { padding: 20px 15px; }
   .setup-head h3 { font-size: 23px; }
   .setup-grid { display: block; }
-  .experience-field { margin-top: 19px; }
+  .field-pair { grid-template-columns: 1fr; gap: 20px; margin-top: 22px; }
+  .field-pair .experience-field { display: block; grid-row: auto; }
   .consent-panel { padding: 16px 14px; }
   .setup-actions { align-items: flex-start; flex-direction: column; }
   .setup-actions .button { width: 100%; }
@@ -893,7 +898,6 @@ a { color: inherit; }
 .serif { font-weight: 700; letter-spacing: -0.02em; }
 
 /* Tipo de instituição e aviso LGPD */
-.institution-label { display: block; margin-top: 24px !important; }
 .institution-select { width: 100%; max-width: 100%; height: 44px; margin-top: 0; padding: 0 12px; font: inherit; font-size: 16px; color: var(--ink); background: #f3f3f6; border: 1px solid var(--line); border-radius: 0; }
 .institution-select:focus-visible { outline: 3px solid var(--ufrr-green); outline-offset: 2px; }
 
