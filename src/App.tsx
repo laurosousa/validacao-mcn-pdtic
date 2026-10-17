@@ -89,6 +89,7 @@ function Topbar() {
   return (
     <header className="topbar">
       <Wordmark />
+      <span className="topbar-tag" data-testid="text-topbar-tag">PROFIAP-UFRR</span>
     </header>
   );
 }
@@ -220,8 +221,8 @@ function HomePage() {
       <Topbar />
       <section className="hero-wrap">
         <div className="hero-main fade-up">
-          <h1 className="serif">Uma leitura especializada<br /><em>faz diferença.</em></h1>
-          <p className="hero-lede">Ajude a avaliar se os requisitos do MCN–PDTIC são claros, relevantes, abrangentes e aplicáveis à realidade de um PDTIC.</p>
+          <h1 className="serif">Participe da avaliação documental <em>da <span className="nowrap">MCN-PDTIC.</span></em></h1>
+          <p className="hero-lede">Ajude a avaliar se os requisitos da <span className="nowrap">MCN-PDTIC</span> são claros, relevantes, abrangentes e aplicáveis à realidade de um PDTIC.</p>
           <div className="hero-meta">
             <span><ClipboardCheck size={16} /> 80 requisitos</span><i />
             <span><ShieldCheck size={16} /> Sem identificação direta</span><i />

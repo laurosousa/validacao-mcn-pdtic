@@ -313,6 +313,8 @@ a { color: inherit; }
 .brand-copy { display: flex; flex-direction: column; gap: 1px; }
 .brand-copy b { font-size: 16px; letter-spacing: .105em; font-weight: 700; }
 .brand-copy small { font-family: var(--app-font-sans); font-size: 15px; font-style: normal; color: var(--muted-ink); }
+.nowrap { white-space: nowrap; }
+.topbar-tag { color: var(--ufrr-blue); font-weight: 700; font-size: 16px; letter-spacing: .12em; white-space: nowrap; }
 .topbar-right { display: flex; align-items: center; gap: 30px; }
 .research-label, .nav-link { display: inline-flex; align-items: center; gap: 8px; color: var(--muted-ink); font-size: 16px; letter-spacing: .025em; }
 .status-dot { width: 6px; height: 6px; background: #7174a8; border-radius: 50%; }
@@ -322,7 +324,7 @@ a { color: inherit; }
 .eyebrow, .section-number, .eyebrow-small { color: var(--forest); font-family: var(--app-font-mono); font-size: 14px; letter-spacing: .12em; }
 .eyebrow { display: flex; align-items: center; gap: 10px; }
 .eyebrow-rule { display: inline-block; width: 25px; height: 1px; background: var(--ochre); }
-.hero-main h1 { font-size: clamp(56px, 6.1vw, 84px); line-height: .98; font-weight: 500; letter-spacing: -.045em; margin: 30px 0 23px; }
+.hero-main h1 { font-size: clamp(48px, 5.2vw, 72px); line-height: .98; font-weight: 500; letter-spacing: -.045em; margin: 30px 0 23px; }
 .serif { font-family: var(--app-font-serif); }
 .hero-main h1 em, .auth-message h1 em { color: #009640; font-weight: 500; }
 .hero-lede { max-width: 610px; color: #2c3173; font-size: 18px; line-height: 1.75; margin: 0; }
@@ -663,11 +665,13 @@ a { color: inherit; }
 @media (max-width: 680px) {
   .topbar { height: auto; min-height: 70px; padding: 14px 19px; }
   .topbar .brand-copy small { font-size: 13px; line-height: 1.35; }
+  .topbar { gap: 12px; }
+  .topbar-tag { font-size: 12px; letter-spacing: .06em; }
   .topbar-right { gap: 0; }
   .research-label { display: none; }
   .nav-link { font-size: 14px; }
   .hero-wrap { width: calc(100% - 38px); min-height: 0; display: block; padding: 58px 0 37px; }
-  .hero-main h1 { font-size: clamp(51px, 13vw, 72px); margin: 25px 0 16px; }
+  .hero-main h1 { font-size: clamp(38px, 10.5vw, 56px); margin: 25px 0 16px; }
   .hero-lede { font-size: 16px; line-height: 1.7; }
   .hero-meta { gap: 11px; margin-top: 21px; font-size: 14px; }
   .hero-meta i { display: none; }
