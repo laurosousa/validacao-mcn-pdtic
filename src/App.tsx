@@ -37,7 +37,7 @@ const institutionNames: Record<InstitutionType, string> = {
 const normativityLabel: Record<Requirement['normativity'], string> = {
   obrigatorio: 'Obrigatório', recomendado: 'Recomendado', complementar: 'Complementar',
 };
-const scaleLabels = ['Inadequado', 'Parcialmente adequado', 'Adequado', 'Plenamente adequado'];
+const scaleLabels = ['Inadequado', 'Parcialmente adequado', 'Adequado', 'Totalmente adequado'];
 const storageKey = 'mcn-pdtic-validation-draft-v1';
 
 type DimensionAnswers = Record<Dimension, DimensionInput>;
@@ -317,8 +317,8 @@ function ProfileSetup({ draft, onChange, consent, setConsent, config, onStart }:
       </fieldset>
       <div className="field-pair">
       <div className="experience-field">
-        <label htmlFor="years-experience">Anos de experiência profissional</label>
-        <p>Mínimo de 2 anos.</p>
+        <label htmlFor="years-experience">Anos de experiência em TIC no setor público</label>
+        <p>Em gestão ou governança de TIC; mínimo de 2 anos.</p>
         <div className="number-input-wrap"><input id="years-experience" type="number" inputMode="numeric" min={2} step={1} value={draft.yearsExperience ?? ''} onChange={(event) => onChange({ yearsExperience: Number(event.target.value) })} placeholder="Ex.: 8" data-testid="input-years-experience" /><span>anos</span></div>
       </div>
       <div className="experience-field">
