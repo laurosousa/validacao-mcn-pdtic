@@ -80,7 +80,7 @@ function Wordmark({ compact = false }: { compact?: boolean }) {
   return (
     <Link href="/" className="brand-mark" data-testid="link-home">
       <span className="brand-symbol" aria-hidden="true"><span /><span /><span /></span>
-      {!compact && <span className="brand-copy"><b>MCN–PDTIC</b><small>instrumento de validação</small></span>}
+      {!compact && <span className="brand-copy"><b>MCN-PDTIC</b><small>Matriz de Conformidade Normativa para PDTIC</small></span>}
     </Link>
   );
 }
@@ -89,10 +89,6 @@ function Topbar() {
   return (
     <header className="topbar">
       <Wordmark />
-      <div className="topbar-right">
-        <span className="research-label"><span className="status-dot" />Pesquisa acadêmica</span>
-        <a className="nav-link" href="#participar">Participar <ArrowUpRight size={15} /></a>
-      </div>
     </header>
   );
 }
@@ -224,7 +220,6 @@ function HomePage() {
       <Topbar />
       <section className="hero-wrap">
         <div className="hero-main fade-up">
-          <div className="eyebrow"><span className="eyebrow-rule" />PESQUISA · GESTÃO PÚBLICA DE TIC</div>
           <h1 className="serif">Uma leitura especializada<br /><em>faz diferença.</em></h1>
           <p className="hero-lede">Ajude a avaliar se os requisitos do MCN–PDTIC são claros, relevantes, abrangentes e aplicáveis à realidade de um PDTIC.</p>
           <div className="hero-meta">
