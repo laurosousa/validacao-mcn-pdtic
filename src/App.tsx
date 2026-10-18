@@ -255,13 +255,13 @@ function HomePage() {
 
       <section className="intro-grid">
         <div className="intro-block">
-          <span className="section-number">01 / PROPÓSITO</span>
+          <span className="section-number">PROPÓSITO</span>
           <h2 className="serif">Um instrumento<br />para quem conhece<br />o trabalho de perto.</h2>
           <p>Você avaliará os 80 requisitos da <span className="nowrap">MCN-PDTIC</span> como critérios: se a redação é clara e se cada requisito é pertinente para avaliar um PDTIC institucional.</p>
           <p className="intro-note"><Info size={15} /> Você não está avaliando o PDTIC da sua instituição nem o da UFRR.</p>
         </div>
         <div className="four-dimensions">
-          <span className="section-number">02 / DIMENSÕES PARA AVALIAR</span>
+          <span className="section-number">DIMENSÕES PARA AVALIAR</span>
           <div className="dimension-list">
             {dimensions.map((dim) => <div className="dimension-row" key={dim}>
               <span className="dimension-index">{dimensionMeta[dim].index}</span><div><b>{dimensionMeta[dim].label}</b><p>{dimensionMeta[dim].description}</p></div><ArrowUpRight size={16} />
@@ -278,9 +278,8 @@ function HomePage() {
 
       <section className="participate" id="participar">
         <div className="participate-heading">
-          <span className="section-number">03 / SUA CONTRIBUIÇÃO</span>
+          <span className="section-number">SUA CONTRIBUIÇÃO</span>
           <h2 className="serif">Pronto para avaliar?</h2>
-          <p>Quando a coleta estiver liberada, o percurso começa com uma breve confirmação de perfil e segue pelas quatro dimensões.</p>
         </div>
         {configQuery.isLoading ? <LoadingState label="Preparando o instrumento e seus requisitos" /> :
           !validRequirements ? <Notice tone="warning">O instrumento retornou {requirements.length} requisitos. Para proteger a integridade da pesquisa, a avaliação só poderá começar quando os 80 requisitos estiverem disponíveis.</Notice> :
@@ -300,7 +299,7 @@ function ProfileSetup({ draft, onChange, consent, setConsent, config, onStart }:
 }) {
   const valid = Boolean(consent && draft.profile && draft.institutionType && (draft.yearsExperience ?? 0) >= 2 && draft.confirmsNoDirectLink);
   return <div className="setup-card fade-up">
-    <div className="setup-head"><div><span className="section-number">PRIMEIRO, SEU PERFIL</span><h3>Uma breve confirmação</h3></div><span className="step-count">ETAPA 1 <i /> 2</span></div>
+    <div className="setup-head"><div><span className="section-number">PRIMEIRO, SEU PERFIL</span><h3>Uma breve confirmação</h3></div></div>
     <div className="setup-grid">
       <fieldset className="form-fieldset"><legend>Qual perfil descreve melhor sua atuação?</legend>
         <div className="profile-options">
