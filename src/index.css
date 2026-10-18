@@ -350,6 +350,7 @@ a { color: inherit; }
 .readiness-details span { font-family: var(--app-font-mono); font-size: 13px; letter-spacing: .1em; color: #76778e; }
 .readiness-details b, .readiness-details a { font-size: 16px; font-weight: 600; text-decoration: none; }
 .readiness-details a { display: flex; align-items: center; gap: 4px; color: var(--forest); }
+.readiness-note { max-width: 190px; font-size: 14px; line-height: 1.4; color: var(--ufrr-blue); }
 .readiness-details .unset { color: #009640; font-weight: 500; }
 .intro-grid { max-width: 1190px; margin: auto; padding: 102px 20px 84px; display: grid; grid-template-columns: .88fr 1.12fr; gap: 104px; }
 .intro-block h2 { font-size: 42px; line-height: 1.08; letter-spacing: -.025em; font-weight: 500; margin: 23px 0 17px; }

@@ -243,7 +243,7 @@ function HomePage() {
           <p>{ready ? 'Confirme seu perfil e comece a avaliação. Você pode parar e continuar depois, neste aparelho.' : 'A participação será liberada quando a equipe de pesquisa conectar a planilha e informar a duração estimada.'}</p>
         </div>
         <div className="readiness-details">
-          <div><span>DURAÇÃO</span>{configQuery.isLoading ? <b>Consultando…</b> : config?.estimatedMinutes !== null && config?.estimatedMinutes !== undefined ? <b>{config.estimatedMinutes} min</b> : <b className="unset">Não informada</b>}</div>
+          <div><span>DURAÇÃO</span>{configQuery.isLoading ? <b>Consultando…</b> : config?.estimatedMinutes !== null && config?.estimatedMinutes !== undefined ? <b>{config.estimatedMinutes} min</b> : <b className="unset">Não informada</b>}<small className="readiness-note" data-testid="text-save-note">Salve seu progresso e reinicie de onde parou.</small></div>
         </div>
       </section>
       {ready && returning && <section className="welcome-back" data-testid="banner-welcome-back">
@@ -257,11 +257,11 @@ function HomePage() {
         <div className="intro-block">
           <span className="section-number">01 / PROPÓSITO</span>
           <h2 className="serif">Um instrumento<br />para quem conhece<br />o trabalho de perto.</h2>
-          <p>Você avaliará os 80 requisitos da MCN–PDTIC como critérios: se a redação é clara e se cada requisito é pertinente para avaliar um PDTIC qualquer.</p>
+          <p>Você avaliará os 80 requisitos da <span className="nowrap">MCN-PDTIC</span> como critérios: se a redação é clara e se cada requisito é pertinente para avaliar um PDTIC institucional.</p>
           <p className="intro-note"><Info size={15} /> Você não está avaliando o PDTIC da sua instituição nem o da UFRR.</p>
         </div>
         <div className="four-dimensions">
-          <span className="section-number">02 / O QUE VOCÊ VAI AVALIAR</span>
+          <span className="section-number">02 / DIMENSÕES PARA AVALIAR</span>
           <div className="dimension-list">
             {dimensions.map((dim) => <div className="dimension-row" key={dim}>
               <span className="dimension-index">{dimensionMeta[dim].index}</span><div><b>{dimensionMeta[dim].label}</b><p>{dimensionMeta[dim].description}</p></div><ArrowUpRight size={16} />
