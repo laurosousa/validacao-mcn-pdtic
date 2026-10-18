@@ -371,7 +371,7 @@ a { color: inherit; }
 .privacy-mark { width: 39px; height: 39px; color: var(--forest); background: #cccde4; border-radius: 50%; display: grid; place-items: center; flex: 0 0 auto; }
 .privacy-strip b { font-family: var(--app-font-serif); font-size: 19px; font-weight: 500; }
 .privacy-strip p { font-size: 15px; color: #5d5e71; margin: 4px 0 0; line-height: 1.55; }
-.privacy-tag { margin-left: auto; font-family: var(--app-font-mono); font-size: 13px; letter-spacing: .1em; color: #2c317d; white-space: nowrap; }
+.privacy-tag { margin-top: 10px; font-family: var(--app-font-mono); font-size: 13px; letter-spacing: .1em; color: #2c317d; }
 .participate { max-width: 1190px; padding: 0 20px 100px; margin: auto; }
 .participate-heading { display: grid; grid-template-columns: 1fr 1.3fr; column-gap: 40px; align-items: end; margin: 0 0 28px; }
 .participate-heading .section-number { grid-column: 1/-1; margin-bottom: 12px; }
@@ -692,7 +692,7 @@ a { color: inherit; }
   .privacy-mark { width: 34px; height: 34px; }
   .privacy-strip b { font-size: 17px; }
   .privacy-strip p { font-size: 14px; }
-  .privacy-tag { display: none; }
+  .privacy-tag { font-size: 12px; }
   .participate { padding: 0 19px 65px; }
   .participate-heading { display: block; margin-bottom: 19px; }
   .participate-heading h2 { font-size: 35px; margin: 12px 0 9px; }

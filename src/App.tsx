@@ -273,8 +273,7 @@ function HomePage() {
 
       <section className="privacy-strip">
         <div className="privacy-mark"><LockKeyhole size={19} /></div>
-        <div><b>Proteção de dados.</b><p>Não pedimos nome, e-mail nem o nome da sua instituição, apenas o tipo de instituição. Evite incluir dados identificáveis nos comentários. Os dados seguem a LGPD (Lei nº 13.709/2018) e os resultados serão apresentados de forma agregada.</p></div>
-        <div className="privacy-tag">SEM IDENTIFICADORES DIRETOS</div>
+        <div><b>Proteção de dados.</b><p>Não pedimos nome, e-mail nem o nome da sua instituição, apenas o tipo de instituição. Evite incluir dados identificáveis nos comentários. Os dados seguem a LGPD (Lei nº 13.709/2018) e os resultados serão apresentados de forma agregada.</p><div className="privacy-tag">SEM IDENTIFICADORES DIRETOS</div></div>
       </section>
 
       <section className="participate" id="participar">
