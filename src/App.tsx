@@ -435,7 +435,7 @@ function SubmissionSuccess({ receipt, onHome }: { receipt: string; onHome: () =>
 }
 
 function Footer() {
-  return <footer className="footer"><Wordmark /><p>Instrumento de pesquisa acadêmica · Validação de conteúdo MCN–PDTIC</p><span>Uma pesquisa sobre requisitos, não sobre uma instituição.</span></footer>;
+  return <footer className="footer"><Wordmark /><span className="topbar-tag" data-testid="text-footer-tag">PROFIAP-UFRR</span></footer>;
 }
 
 function Routes() {
