@@ -267,7 +267,7 @@ function HomePage() {
               <span className="dimension-index">{dimensionMeta[dim].index}</span><div><b>{dimensionMeta[dim].label}</b><p>{dimensionMeta[dim].description}</p></div><ArrowUpRight size={16} />
             </div>)}
           </div>
-          <div className="rating-key"><span className="rating-key-dot" /> Em cada requisito: clareza e relevância <span className="rating-range">1—4</span></div>
+          <div className="rating-key"><span className="rating-key-dot" /> Em cada requisito: clareza e relevância</div>
         </div>
       </section>
 
