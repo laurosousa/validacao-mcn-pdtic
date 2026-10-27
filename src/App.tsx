@@ -110,7 +110,7 @@ function Notice({ children, tone = 'neutral' }: { children: ReactNode; tone?: 'n
   return <div className={`notice notice-${tone}`} role="status">{children}</div>;
 }
 
-function HomePage() {
+function HomePage({ withCta = false }: { withCta?: boolean } = {}) {
   const configQuery = useConfig();
   const [draft, setDraft] = useState<Draft>(readDraft);
   const [receipt, setReceipt] = useState<string | null>(null);
@@ -228,6 +228,7 @@ function HomePage() {
             <span><ShieldCheck size={16} /> Sem identificação direta</span><i />
             <span><Activity size={16} /> 4 dimensões</span>
           </div>
+          {withCta && <button type="button" className="button button-primary hero-cta" data-testid="button-hero-cta" onClick={() => document.getElementById('participar')?.scrollIntoView({ behavior: 'smooth', block: 'start' })}>Participar da avaliação <ArrowRight size={18} /></button>}
         </div>
         <aside className="hero-aside fade-up fade-delay-1">
           <div className="instrument-stamp"><span>INSTRUMENTO</span><b>MCN</b><small>VALIDAÇÃO DE CONTEÚDO</small><div className="stamp-line" /><small>UFRR · PESQUISA</small></div>
@@ -438,7 +439,8 @@ function Footer() {
 
 function Routes() {
   return <Switch>
-    <Route path="/" component={HomePage} />
+    <Route path="/">{() => <HomePage />}</Route>
+    <Route path="/convite">{() => <HomePage withCta />}</Route>
     <Route path="/termo" component={TermoPage} />
     <Route component={NotFound} />
   </Switch>;

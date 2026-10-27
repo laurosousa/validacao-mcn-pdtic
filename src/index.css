@@ -328,6 +328,8 @@ a { color: inherit; }
 .serif { font-family: var(--app-font-serif); }
 .hero-main h1 em, .auth-message h1 em { color: #009640; font-weight: 500; }
 .hero-lede { max-width: 610px; color: #2c3173; font-size: 18px; line-height: 1.75; margin: 0; }
+.button.hero-cta { margin-top: 34px; min-height: 56px; padding: 0 28px; font-size: 18px; }
+#participar { scroll-margin-top: 24px; }
 .hero-meta { display: flex; flex-wrap: wrap; gap: 18px; align-items: center; margin-top: 31px; color: #2c3173; font-size: 16px; }
 .hero-meta span { display: flex; align-items: center; gap: 7px; }
 .hero-meta svg { color: var(--forest); }
