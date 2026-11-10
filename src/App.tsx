@@ -434,7 +434,7 @@ function SubmissionSuccess({ receipt, onHome }: { receipt: string; onHome: () =>
 }
 
 function Footer() {
-  return <footer className="footer"><Wordmark /><span className="topbar-tag" data-testid="text-footer-tag">PROFIAP-UFRR</span></footer>;
+  return <footer className="footer"><div className="footer-row"><Wordmark /><span className="topbar-tag" data-testid="text-footer-tag">PROFIAP-UFRR</span></div><p className="footer-inpi" data-testid="text-footer-inpi">Instrumento de validação da MCN-PDTIC · Programa registrado no INPI, processo nº BR512026009724-0 · Titular: Universidade Federal de Roraima</p></footer>;
 }
 
 function Routes() {

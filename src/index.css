@@ -532,7 +532,9 @@ a { color: inherit; }
 .receipt span { font-family: var(--app-font-mono); color: #828499; letter-spacing: .12em; font-size: 12px; }
 .receipt b { font-family: var(--app-font-mono); font-size: 15px; word-break: break-all; }
 .success-card .notice { margin: 14px 0 19px; text-align: left; }
-.footer { max-width: 1190px; margin: auto; padding: 25px 20px 30px; border-top: 1px solid rgba(13,16,70,.13); display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+.footer { max-width: 1190px; margin: auto; padding: 25px 20px 30px; border-top: 1px solid rgba(13,16,70,.13); }
+.footer-row { display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+.footer-inpi { margin: 14px 0 0; color: #5d5f78; font-size: 13px; line-height: 1.5; }
 .footer .brand-symbol { width: 25px; height: 24px; }
 .footer .brand-copy b { font-size: 13px; }
 .footer .brand-copy small { font-size: 13px; }
@@ -743,7 +745,9 @@ a { color: inherit; }
   .autosave-note { order: 3; width: 100%; justify-content: center; }
   .final-submit { padding: 18px 11px; }
   .final-submit .button-submit { width: 100%; }
-  .footer { padding: 21px 19px; gap: 12px; }
+  .footer { padding: 21px 19px; }
+  .footer-row { gap: 12px; }
+  .footer-inpi { font-size: 12px; }
   .footer .topbar-tag { font-size: 12px; }
   .success-card { padding: 38px 20px 32px; }
   .success-card h1 { font-size: 39px; }
