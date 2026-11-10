@@ -115,6 +115,7 @@ function HomePage() {
   const [draft, setDraft] = useState<Draft>(readDraft);
   const [receipt, setReceipt] = useState<string | null>(null);
   const [submitState, setSubmitState] = useState<'idle' | 'pending' | 'error'>('idle');
+  const [submitErrorDetail, setSubmitErrorDetail] = useState('');
   const [savedNotice, setSavedNotice] = useState(false);
   // Someone returning with an evaluation in progress gets a "continue where you stopped" prompt.
   const [returning, setReturning] = useState(() => draft.step === 'survey');
@@ -132,7 +133,7 @@ function HomePage() {
   const validRequirements = requirements.length === 80;
   const allDimensionRatings = dimensions.every((dim) => draft.dimensions[dim].breadth >= 1 && draft.dimensions[dim].applicability >= 1);
   const allRated = validRequirements && answeredCount === requirements.length;
-  const profileReady = Boolean(draft.profile && draft.institutionType && (draft.yearsExperience ?? 0) >= 2 && draft.confirmsNoDirectLink);
+  const profileReady = Boolean(draft.profile && draft.institutionType && (draft.yearsExperience ?? 0) >= 2 && (draft.yearsExperience ?? 0) <= 70 && draft.confirmsNoDirectLink);
 
   useEffect(() => {
     try { localStorage.setItem(storageKey, JSON.stringify(draft)); } catch { /* Storage may be unavailable. */ }
@@ -206,7 +207,10 @@ function HomePage() {
       setSubmitState('idle');
       setReceipt(result.id);
       window.scrollTo({ top: 0 });
-    }).catch(() => setSubmitState('error'));
+    }).catch((error: unknown) => {
+      setSubmitErrorDetail(error instanceof Error ? error.message : String(error));
+      setSubmitState('error');
+    });
   }
   function startOver() {
     setSubmitState('idle');
@@ -286,7 +290,7 @@ function HomePage() {
           !ready ? <div className="closed-card"><div className="closed-seal"><LockKeyhole size={20} /></div><div><b>Participação temporariamente indisponível</b><p>Esta página permanecerá aberta para consulta. Nenhuma resposta pode ser enviada antes da liberação formal da coleta.</p></div><span className="closed-state">AGUARDANDO CONFIGURAÇÃO</span></div> :
           draft.step === 'profile' ? <ProfileSetup draft={draft} onChange={updateDraft} consent={consent} setConsent={(value) => updateDraft({ consentAccepted: value })} config={config} onStart={() => { setReturning(false); updateDraft({ step: 'survey', activeDimension: dimensions[0] }); }} />
             : <SurveyWorkspace draft={draft} activeDimension={activeDimension} activeItems={activeItems} groups={groups} answeredCount={answeredCount} total={requirements.length} onChange={updateDraft} onRating={updateRating} onDimension={updateDimension} onNavigate={goToDimension} onSubmit={submit} submitPending={submitState === 'pending'} submitError={submitState === 'error'} saved={savedNotice} onSave={saveForLater} />}
-        {submitState === 'error' && <ErrorState retry={submit} message="Sua resposta não foi enviada. Verifique sua conexão e tente de novo; as informações continuam salvas neste aparelho." />}
+        {submitState === 'error' && <ErrorState retry={submit} message={`Sua resposta não foi enviada. Verifique sua conexão e tente de novo; as informações continuam salvas neste aparelho.${submitErrorDetail ? ` Detalhe: ${submitErrorDetail}` : ''}`} />}
       </section>
       <Footer />
     </main>
@@ -297,7 +301,7 @@ function ProfileSetup({ draft, onChange, consent, setConsent, config, onStart }:
   draft: Draft; onChange: (patch: Partial<Draft>) => void; consent: boolean;
   setConsent: (value: boolean) => void; config: McnConfig | undefined; onStart: () => void;
 }) {
-  const valid = Boolean(consent && draft.profile && draft.institutionType && (draft.yearsExperience ?? 0) >= 2 && draft.confirmsNoDirectLink);
+  const valid = Boolean(consent && draft.profile && draft.institutionType && (draft.yearsExperience ?? 0) >= 2 && (draft.yearsExperience ?? 0) <= 70 && draft.confirmsNoDirectLink);
   return <div className="setup-card fade-up">
     <div className="setup-head"><div><span className="section-number">PRIMEIRO, SEU PERFIL</span><h3>Uma breve confirmação</h3></div></div>
     <div className="setup-grid">
@@ -312,8 +316,8 @@ function ProfileSetup({ draft, onChange, consent, setConsent, config, onStart }:
       <div className="field-pair">
       <div className="experience-field">
         <label htmlFor="years-experience">Anos de experiência em TIC no setor público</label>
-        <p>Em gestão ou governança de TIC; mínimo de 2 anos.</p>
-        <div className="number-input-wrap"><input id="years-experience" type="number" inputMode="numeric" min={2} step={1} value={draft.yearsExperience ?? ''} onChange={(event) => onChange({ yearsExperience: Number(event.target.value) })} placeholder="Ex.: 8" data-testid="input-years-experience" /><span>anos</span></div>
+        <p>Em gestão ou governança de TIC; de 2 a 70 anos.</p>
+        <div className="number-input-wrap"><input id="years-experience" type="number" inputMode="numeric" min={2} max={70} step={1} value={draft.yearsExperience ?? ''} onChange={(event) => onChange({ yearsExperience: Number(event.target.value) })} placeholder="Ex.: 8" data-testid="input-years-experience" /><span>anos</span></div>
       </div>
       <div className="experience-field">
         <label htmlFor="institution-type">Tipo de instituição em que atua</label>
