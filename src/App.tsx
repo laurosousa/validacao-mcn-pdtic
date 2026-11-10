@@ -405,10 +405,9 @@ function SurveyWorkspace({ draft, activeDimension, activeItems, groups, answered
         </div>
       </section>
       <div className="survey-navigation">
-        <button className="button button-outline" disabled={currentIndex === 0} onClick={() => onNavigate(currentIndex - 1)} data-testid="button-previous-dimension"><ArrowLeft size={16} /> Anterior</button>
+        <button className="button button-outline nav-prev" disabled={currentIndex === 0} onClick={() => onNavigate(currentIndex - 1)} data-testid="button-previous-dimension"><ArrowLeft size={16} /> Anterior</button>
         <button type="button" className="button button-outline nav-save" onClick={onSave} data-testid="button-save-later"><Save size={16} /> Salvar e continuar depois</button>
-        {currentIndex < dimensions.length - 1 ? <button className="button button-primary" onClick={() => onNavigate(currentIndex + 1)} data-testid="button-next-dimension">Próxima dimensão <ArrowRight size={16} /></button> :
-          <button className="button button-primary" onClick={() => document.getElementById('survey-final-submit')?.scrollIntoView({ behavior: 'smooth', block: 'center' })} data-testid="button-review-response">Ir para envio <ArrowRight size={16} /></button>}
+        {currentIndex < dimensions.length - 1 && <button className="button button-primary nav-next" onClick={() => onNavigate(currentIndex + 1)} data-testid="button-next-dimension">Próxima dimensão <ArrowRight size={16} /></button>}
       </div>
       <p className={`save-status ${saved ? 'is-saved' : ''}`} role="status" data-testid="text-save-status"><CheckCircle2 size={15} /> {saved ? 'Avaliação salva neste aparelho. Pode fechar a página: ao voltar a este site, neste mesmo navegador, você continua de onde parou.' : 'Suas respostas são salvas automaticamente neste aparelho.'}</p>
       {currentIndex === dimensions.length - 1 && <div className="final-submit" id="survey-final-submit">
